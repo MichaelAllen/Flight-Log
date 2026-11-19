@@ -3,6 +3,8 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import Papa from "papaparse";
 import { parseLog } from "../scripts/importer.ts";
+import { normalizeSourceCsv } from "../scripts/normalize-source.ts";
+import { withBasePath } from "../src/urls.ts";
 import {
   aggregateConnections,
   airportStats,
@@ -269,7 +271,7 @@ test("prepared archive has valid references", async () => {
   const config = JSON.parse(await readFile("data/catalog.json", "utf8")),
     a = JSON.parse(await readFile("data/airports.json", "utf8"));
   const result = parseLog(
-    await readFile("data/flights.csv", "utf8"),
+    normalizeSourceCsv(await readFile("data/flights.csv", "utf8")).csv,
     config.books,
     a,
     [],
@@ -338,13 +340,12 @@ test("source normalization preserves raw dates and rejects impossible US dates",
 test("loaded archive preserves supplied fields, missing hours, and book-page references", async () => {
   const config = JSON.parse(await readFile("data/catalog.json", "utf8"));
   const supplied = Papa.parse<Record<string, string>>(
-    await readFile("data/source/logbook.csv", "utf8"),
-    { header: true, skipEmptyLines: true },
-  ).data;
-  const canonical = Papa.parse<Record<string, string>>(
     await readFile("data/flights.csv", "utf8"),
     { header: true, skipEmptyLines: true },
   ).data;
+  const canonical = normalizeSourceCsv(
+    await readFile("data/flights.csv", "utf8"),
+  ).rows;
   assert.equal(canonical.length, supplied.length);
   const byId = new Map(canonical.map((r) => [r.id, r]));
   for (const original of supplied) {
@@ -352,7 +353,7 @@ test("loaded archive preserves supplied fields, missing hours, and book-page ref
     for (const [key, value] of Object.entries(original))
       assert.equal(
         key === "date" ? converted.date_original : converted[key],
-        value,
+        key === "date" ? original.date_original || value : value,
         `${original.id}: ${key}`,
       );
     assert.ok(
@@ -369,7 +370,7 @@ test("loaded archive preserves supplied fields, missing hours, and book-page ref
     ...JSON.parse(await readFile("data/airport-overrides.json", "utf8")),
   };
   const result = parseLog(
-    await readFile("data/flights.csv", "utf8"),
+    normalizeSourceCsv(await readFile("data/flights.csv", "utf8")).csv,
     config.books,
     a,
     [],
@@ -553,4 +554,23 @@ test("real archive city and airport-name searches include 60J entries", async ()
     ).map((e) => e.id),
   );
   assert.ok(expected.every((id: string) => byCity.has(id)));
+});
+
+test("public asset URLs work at the origin root and a GitHub Pages repository path", () => {
+  for (const base of ["/", "/Flight-Log/", "/Flight-Log"]) {
+    const expected = base === "/" ? "/" : "/Flight-Log/";
+    assert.equal(
+      withBasePath("data/logbook.json", base),
+      expected + "data/logbook.json",
+    );
+    assert.equal(
+      withBasePath("/books/Logbook.pdf", base),
+      expected + "books/Logbook.pdf",
+    );
+    assert.equal(withBasePath("", base), expected);
+    assert.equal(
+      withBasePath("/books/Logbook.pdf#page=5", base),
+      expected + "books/Logbook.pdf#page=5",
+    );
+  }
 });

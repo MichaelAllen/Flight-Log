@@ -8,6 +8,7 @@ import {
   FileText,
 } from "lucide-react";
 import type { Book, Entry } from "./model";
+import { siteUrl } from "./urls";
 import {
   getDocument,
   GlobalWorkerOptions,
@@ -25,6 +26,7 @@ export default function PdfViewer({
   book: Book;
   onClose: () => void;
 }) {
+  const pdfUrl = siteUrl(book.pdf);
   const canvas = useRef<HTMLCanvasElement>(null),
     dialog = useRef<HTMLDialogElement>(null),
     [pdf, setPdf] = useState<PDFDocumentProxy | null>(null),
@@ -40,7 +42,7 @@ export default function PdfViewer({
     setError("");
     setLoading(true);
     let alive = true;
-    const task = getDocument({ url: book.pdf });
+    const task = getDocument({ url: pdfUrl });
     task.promise
       .then((doc) => {
         if (alive) setPdf(doc);
@@ -57,7 +59,7 @@ export default function PdfViewer({
       alive = false;
       void task.destroy();
     };
-  }, [book.pdf]);
+  }, [pdfUrl]);
   useEffect(() => {
     if (!pdf || !canvas.current) return;
     let alive = true,
@@ -151,7 +153,7 @@ export default function PdfViewer({
         </button>
         <a
           className="icon-button"
-          href={`${book.pdf}#page=${entry.pdfPage}`}
+          href={`${pdfUrl}#page=${entry.pdfPage}`}
           target="_blank"
           rel="noreferrer"
           aria-label="Open PDF in a new tab"
@@ -160,7 +162,7 @@ export default function PdfViewer({
         </a>
         <a
           className="icon-button"
-          href={book.pdf}
+          href={pdfUrl}
           download
           aria-label="Download original PDF"
         >
