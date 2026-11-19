@@ -272,6 +272,11 @@ test("prepared archive has valid references", async () => {
     await readFile("data/flights.csv", "utf8"),
     config.books,
     a,
+    [],
+    {
+      totalTimeColumn: config.totalTimeColumn,
+      airportAliases: config.airportAliases,
+    },
   );
   assert.deepEqual(result.errors, []);
   assert.ok(result.entries.length > 0);
@@ -286,4 +291,266 @@ test("large archive aggregation stays bounded and correct", () => {
   assert.equal(summarize(filtered).count, 20000);
   assert.equal(aggregateConnections(filtered, airports)[0].count, 20000);
   assert.ok(performance.now() - t < 3000);
+});
+
+test("missing tail requires a note, stays filterable, and is not counted as an identified aircraft", () => {
+  assert.ok(
+    parse([{ ...row, tail_number: "" }]).errors.some((e) =>
+      e.includes("tail_number"),
+    ),
+  );
+  const r = parse([
+    { ...row, tail_number: "", transcription_notes: "Registration unreadable" },
+  ]);
+  assert.deepEqual(r.errors, []);
+  assert.equal(r.warnings.length, 1);
+  assert.equal(r.entries[0].tailNumber, "");
+  assert.equal(summarize(r.entries).aircraft, 0);
+  const f = { ...emptyFilters, tails: [""] };
+  assert.equal(filterEntries(r.entries, f).length, 1);
+  assert.deepEqual(
+    parseState("?" + serializeState(f, "", "atlas")).filters.tails,
+    [""],
+  );
+});
+
+test("source normalization preserves raw dates and rejects impossible US dates", async () => {
+  const { normalizeSourceCsv } = await import("../scripts/normalize-source.ts");
+  const result = normalizeSourceCsv(
+    Papa.unparse([
+      { ...row, date: "11/24/89" },
+      { ...row, id: "other", date: "1/22/95" },
+    ]),
+  );
+  assert.equal(result.rows[0].date, "1989-11-24");
+  assert.equal(result.rows[0].date_original, "11/24/89");
+  assert.equal(result.rows[1].date, "1995-01-22");
+  assert.throws(
+    () => normalizeSourceCsv(Papa.unparse([{ ...row, date: "2/30/90" }])),
+    /invalid date/,
+  );
+  assert.equal(
+    normalizeSourceCsv(result.csv).rows[0].date_original,
+    "11/24/89",
+  );
+});
+
+test("loaded archive preserves supplied fields, missing hours, and book-page references", async () => {
+  const config = JSON.parse(await readFile("data/catalog.json", "utf8"));
+  const supplied = Papa.parse<Record<string, string>>(
+    await readFile("data/source/logbook.csv", "utf8"),
+    { header: true, skipEmptyLines: true },
+  ).data;
+  const canonical = Papa.parse<Record<string, string>>(
+    await readFile("data/flights.csv", "utf8"),
+    { header: true, skipEmptyLines: true },
+  ).data;
+  assert.equal(canonical.length, supplied.length);
+  const byId = new Map(canonical.map((r) => [r.id, r]));
+  for (const original of supplied) {
+    const converted = byId.get(original.id)!;
+    for (const [key, value] of Object.entries(original))
+      assert.equal(
+        key === "date" ? converted.date_original : converted[key],
+        value,
+        `${original.id}: ${key}`,
+      );
+    assert.ok(
+      config.books.some(
+        (b: Book) =>
+          b.id === converted.source_book_id &&
+          Number(converted.pdf_page) >= 1 &&
+          Number(converted.pdf_page) <= b.pageCount,
+      ),
+    );
+  }
+  const a = {
+    ...JSON.parse(await readFile("data/airports.json", "utf8")),
+    ...JSON.parse(await readFile("data/airport-overrides.json", "utf8")),
+  };
+  const result = parseLog(
+    await readFile("data/flights.csv", "utf8"),
+    config.books,
+    a,
+    [],
+    {
+      totalTimeColumn: config.totalTimeColumn,
+      airportAliases: config.airportAliases,
+    },
+  );
+  assert.deepEqual(result.errors, []);
+  assert.ok(result.entries.every((e) => e.route.every((id) => a[id])));
+  for (const e of result.entries)
+    assert.equal(
+      e.totalHours,
+      byId.get(e.id)![config.totalTimeColumn || "total_hours"]
+        ? Number(byId.get(e.id)![config.totalTimeColumn || "total_hours"])
+        : null,
+    );
+  assert.equal(
+    summarize(result.entries).aircraft,
+    new Set(supplied.map((r) => r.tail_number).filter(Boolean)).size,
+  );
+  assert.equal(config.meta.demo, false);
+});
+
+test("configured hour source uses single-engine land without adding or falling back to categories", () => {
+  const options = { totalTimeColumn: "single_engine_land" };
+  const result = parseLog(
+    csv([
+      { ...row, total_hours: "9", single_engine_land: "1.4", night: "0.5" },
+    ]),
+    books,
+    importAirports,
+    [],
+    options,
+  );
+  assert.deepEqual(result.errors, []);
+  assert.equal(result.entries[0].totalHours, 1.4);
+  assert.equal(result.entries[0].original.total_hours, "9");
+  assert.equal(result.entries[0].categories.single_engine_land, 1.4);
+  const missing = parseLog(
+    csv([{ ...row, single_engine_land: "" }]),
+    books,
+    importAirports,
+    [],
+    options,
+  );
+  assert.equal(missing.entries[0].totalHours, null);
+  const zero = parseLog(
+    csv([{ ...row, single_engine_land: "0" }]),
+    books,
+    importAirports,
+    [],
+    options,
+  );
+  assert.equal(zero.entries[0].totalHours, 0);
+  assert.ok(
+    parseLog(csv(), books, importAirports, [], options).errors.some((e) =>
+      e.includes("Missing configured hours column"),
+    ),
+  );
+});
+
+test("8A2 aliases to 60J while preserving original routes and coalescing visits", async () => {
+  const options = { airportAliases: { "8A2": "60J" } };
+  const result = parseLog(
+    csv([{ ...row, route: "8A2>SUT>8A2", route_original: "8A2-SUT-8A2" }]),
+    books,
+    importAirports,
+    [],
+    options,
+  );
+  assert.deepEqual(result.errors, []);
+  assert.deepEqual(result.entries[0].route, ["60J", "SUT", "60J"]);
+  assert.equal(result.entries[0].routeOriginal, "8A2-SUT-8A2");
+  assert.equal(result.entries[0].original.route, "8A2>SUT>8A2");
+  assert.equal(
+    aggregateConnections(result.entries, importAirports)[0].count,
+    1,
+  );
+  const { canonicalizeFilters } = await import("../src/model.ts");
+  const filters = canonicalizeFilters(
+    { ...emptyFilters, airport: "8A2", connection: "8A2|SUT" },
+    options.airportAliases,
+  );
+  assert.equal(filters.airport, "60J");
+  assert.equal(filters.connection, "60J|SUT");
+  assert.equal(filterEntries(result.entries, filters).length, 1);
+});
+
+test("search matches airport names and cities for visited stops, case-insensitively", () => {
+  const catalog: Record<string, Airport> = {
+    "60J": {
+      ...airports.A,
+      id: "60J",
+      name: "Odell Williamson Municipal Airport",
+      city: "Ocean Isle Beach",
+    },
+    CRE: {
+      ...airports.B,
+      id: "CRE",
+      name: "Grand Strand Airport",
+      city: "North Myrtle Beach",
+    },
+  };
+  const coast = {
+    ...base,
+    route: ["CRE", "60J", "CRE"],
+    remarks: "",
+    notes: "",
+  };
+  const other = {
+    ...base,
+    id: "other",
+    route: ["CRE", "CRE"],
+    remarks: "",
+    notes: "",
+  };
+  for (const search of [
+    "Ocean Isle",
+    "odell williamson",
+    " OCEAN ISLE ",
+    "60j",
+  ]) {
+    assert.deepEqual(
+      filterEntries([coast, other], { ...emptyFilters, search }, catalog).map(
+        (e) => e.id,
+      ),
+      [coast.id],
+    );
+  }
+  assert.equal(
+    filterEntries(
+      [coast],
+      { ...emptyFilters, search: "Ocean Isle", year: "1996" },
+      catalog,
+    ).length,
+    0,
+  );
+  assert.equal(
+    filterEntries(
+      [coast],
+      { ...emptyFilters, search: "Ocean Isle", tails: ["OTHER"] },
+      catalog,
+    ).length,
+    0,
+  );
+  assert.equal(
+    filterEntries(
+      [{ ...coast, route: ["UNKNOWN"] }],
+      { ...emptyFilters, search: "Ocean Isle" },
+      catalog,
+    ).length,
+    0,
+  );
+  assert.equal(
+    filterEntries(
+      [{ ...other, remarks: "Ocean Isle visit" }],
+      { ...emptyFilters, search: "Ocean Isle" },
+      catalog,
+    ).length,
+    1,
+  );
+});
+
+test("real archive city and airport-name searches include 60J entries", async () => {
+  const data = JSON.parse(await readFile("public/data/logbook.json", "utf8"));
+  const expected = data.entries
+    .filter((e: Entry) => e.route.includes("60J"))
+    .map((e: Entry) => e.id);
+  const byName = filterEntries(
+    data.entries,
+    { ...emptyFilters, search: "Odell Williamson" },
+    data.airports,
+  ).map((e) => e.id);
+  assert.deepEqual(byName, expected);
+  const byCity = new Set(
+    filterEntries(
+      data.entries,
+      { ...emptyFilters, search: "Ocean Isle" },
+      data.airports,
+    ).map((e) => e.id),
+  );
+  assert.ok(expected.every((id: string) => byCity.has(id)));
 });

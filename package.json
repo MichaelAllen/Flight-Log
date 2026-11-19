@@ -9,7 +9,9 @@
     "import": "tsx scripts/import-data.ts",
     "build": "npm run import && tsc -b && vite build",
     "test": "tsx --test tests/*.test.ts",
-    "preview": "vite preview --host 0.0.0.0"
+    "preview": "vite preview --host 0.0.0.0",
+    "load": "tsx scripts/load-source.ts",
+    "validate:publication": "tsx scripts/import-data.ts --check --publication"
   },
   "dependencies": {
     "react": "^19.2.0",

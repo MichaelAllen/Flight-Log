@@ -32,6 +32,7 @@ import {
   serializeState,
   summarize,
   type Dataset,
+  canonicalizeFilters,
   type Entry,
   type Filters,
 } from "./model";
@@ -76,7 +77,7 @@ function MultiFilter({
                 )
               }
             />
-            {v}
+            {v || "Unknown tail number"}
           </label>
         ))}
       </div>
@@ -126,7 +127,7 @@ function EntryDetails({
         <Plane size={17} />
         {entry.aircraftType}
         <span>·</span>
-        <strong>{entry.tailNumber}</strong>
+        <strong>{entry.tailNumber || "Unknown tail number"}</strong>
       </p>
       <div className="detail-route">
         <Route route={entry.route} />
@@ -178,7 +179,12 @@ function EntryDetails({
         <div className="notice">
           <Info size={16} />
           <div>
-            <strong>Transcription note</strong>
+            <strong>
+              Transcription note
+              {entry.original.handwriting_confidence
+                ? ` · ${entry.original.handwriting_confidence} confidence`
+                : ""}
+            </strong>
             <p>{entry.notes}</p>
           </div>
         </div>
@@ -245,7 +251,10 @@ export default function App() {
         if (!r.ok) throw Error();
         return r.json();
       })
-      .then(setData)
+      .then((loaded: Dataset) => {
+        setData(loaded);
+        setFilters((f) => canonicalizeFilters(f, loaded.meta.airportAliases));
+      })
       .catch((e) => {
         if (e.name !== "AbortError")
           setError(
@@ -257,18 +266,20 @@ export default function App() {
   useEffect(() => {
     const handler = () => {
       const s = parseState(location.search);
-      setFilters(s.filters);
+      setFilters(canonicalizeFilters(s.filters, data?.meta.airportAliases));
       setSelectedId(s.selected);
       setView(s.view);
       setPdfOpen(false);
     };
     addEventListener("popstate", handler);
     return () => removeEventListener("popstate", handler);
-  }, []);
+  }, [data]);
   useEffect(() => {
     const validId =
       data &&
-      filterEntries(data.entries, filters).some((e) => e.id === selectedId)
+      filterEntries(data.entries, filters, data.airports).some(
+        (e) => e.id === selectedId,
+      )
         ? selectedId
         : "";
     if (selectedId && !data) return;
@@ -278,7 +289,7 @@ export default function App() {
       history.pushState(null, "", url);
   }, [filters, selectedId, view, data]);
   const entries = useMemo(
-    () => (data ? filterEntries(data.entries, filters) : []),
+    () => (data ? filterEntries(data.entries, filters, data.airports) : []),
     [data, filters],
   );
   const sorted = useMemo(
@@ -438,6 +449,14 @@ export default function App() {
             </a>
           </div>
         )}
+        {data.meta.importNotice && (
+          <div className="demo-banner">
+            <Info size={16} />
+            <span>
+              <strong>Logbook loaded.</strong> {data.meta.importNotice}
+            </span>
+          </div>
+        )}
         <section className="filter-bar" aria-label="Logbook filters">
           <div className="filter-label">
             <SlidersHorizontal size={17} />
@@ -575,7 +594,11 @@ export default function App() {
             </span>
             <div>
               <strong>
-                {hours(stats.hours)}
+                {hours(
+                  stats.count > 0 && stats.missing === stats.count
+                    ? null
+                    : stats.hours,
+                )}
                 <small>hrs</small>
               </strong>
               <span>
@@ -604,7 +627,12 @@ export default function App() {
             </span>
             <div>
               <strong>{stats.aircraft}</strong>
-              <span>Individual aircraft</span>
+              <span>
+                Identified aircraft
+                {entries.some((e) => !e.tailNumber)
+                  ? " · unknown tail present"
+                  : ""}
+              </span>
             </div>
           </div>
         </section>
@@ -700,7 +728,7 @@ export default function App() {
                           <Plane size={13} />
                           {e.aircraftType}
                           <span className="meta-dot">·</span>
-                          {e.tailNumber}
+                          {e.tailNumber || "Unknown tail number"}
                         </span>
                         <ArrowUpRight size={16} />
                       </div>

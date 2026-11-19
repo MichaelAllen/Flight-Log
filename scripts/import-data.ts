@@ -27,10 +27,11 @@ for (const [id, a] of Object.entries(airports))
   )
     throw new Error(`Invalid airport: ${id}`);
 const books: Book[] = config.books;
+const publication = process.argv.includes("--publication");
 if (new Set(books.map((b) => b.id)).size !== books.length)
   throw new Error("Duplicate book ID");
 for (const b of books) {
-  if (!b.privacyReviewed)
+  if (publication && !b.privacyReviewed)
     throw new Error(`Review privacy before publishing ${b.id}`);
   if (!/^\/books\/[\w./-]+\.pdf$/.test(b.pdf) || b.pdf.includes(".."))
     throw new Error("Book PDF must be under public/books");
@@ -40,15 +41,26 @@ for (const b of books) {
   if (pdf.getPageCount() !== b.pageCount)
     throw new Error(`${b.id}: pageCount does not match PDF`);
 }
-if (!config.meta.privacyReviewed)
+if (publication && !config.meta.privacyReviewed)
   throw new Error(
     "Review CSV remarks and scans before publication; set meta.privacyReviewed only after review",
+  );
+if (
+  !publication &&
+  (!config.meta.privacyReviewed || books.some((b) => !b.privacyReviewed))
+)
+  console.warn(
+    "LOCAL ARCHIVE: personal-information review is pending. Run npm run validate:publication before public hosting.",
   );
 const result = parseLog(
   await readFile("data/flights.csv", "utf8"),
   books,
   airports,
   config.extraNumericColumns || [],
+  {
+    totalTimeColumn: config.totalTimeColumn,
+    airportAliases: config.airportAliases,
+  },
 );
 for (const w of result.warnings) console.warn("WARNING:", w);
 if (result.errors.length) {
@@ -67,7 +79,11 @@ if (!process.argv.includes("--check")) {
         Object.entries(airports).filter(([id]) => used.has(id)),
       ),
       books,
-      meta: config.meta,
+      meta: {
+        ...config.meta,
+        totalTimeColumn: config.totalTimeColumn || "total_hours",
+        airportAliases: config.airportAliases || {},
+      },
       warnings: result.warnings,
     }),
   );

@@ -39,6 +39,9 @@ export interface Dataset {
     title: string;
     description: string;
     airportSource: string;
+    importNotice?: string;
+    totalTimeColumn?: string;
+    airportAliases?: Record<string, string>;
   };
   warnings: string[];
 }
@@ -65,14 +68,43 @@ export const emptyFilters: Filters = {
 export function connectionKey(a: string, b: string) {
   return [a, b].sort().join("|");
 }
+export function canonicalizeFilters(
+  f: Filters,
+  aliases: Record<string, string> = {},
+): Filters {
+  return {
+    ...f,
+    airport: aliases[f.airport] || f.airport,
+    connection: f.connection
+      ? f.connection
+          .split("|")
+          .map((id) => aliases[id] || id)
+          .sort()
+          .join("|")
+      : "",
+  };
+}
 export function hasConnection(e: Entry, key: string) {
   return e.route.some(
     (a, i) =>
       i > 0 && a !== e.route[i - 1] && connectionKey(a, e.route[i - 1]) === key,
   );
 }
-export function filterEntries(entries: Entry[], f: Filters) {
+export function filterEntries(
+  entries: Entry[],
+  f: Filters,
+  airports: Record<string, Airport> = {},
+) {
   const q = f.search.trim().toLowerCase();
+  const matchingAirports = new Set(
+    q
+      ? Object.values(airports)
+          .filter((a) =>
+            [a.name, a.city].some((value) => value.toLowerCase().includes(q)),
+          )
+          .map((a) => a.id)
+      : [],
+  );
   return entries.filter(
     (e) =>
       (!f.year || e.date.startsWith(f.year + "-")) &&
@@ -83,6 +115,7 @@ export function filterEntries(entries: Entry[], f: Filters) {
       (!f.airport || e.route.includes(f.airport)) &&
       (!f.connection || hasConnection(e, f.connection)) &&
       (!q ||
+        e.route.some((id) => matchingAirports.has(id)) ||
         [
           e.id,
           e.date,
@@ -144,7 +177,7 @@ export function summarize(entries: Entry[]) {
     hours: known.reduce((s, e) => s + e.totalHours!, 0),
     missing: entries.length - known.length,
     airports: new Set(entries.flatMap((e) => e.route)).size,
-    aircraft: new Set(entries.map((e) => e.tailNumber)).size,
+    aircraft: new Set(entries.map((e) => e.tailNumber).filter(Boolean)).size,
   };
 }
 export function aggregateConnections(
