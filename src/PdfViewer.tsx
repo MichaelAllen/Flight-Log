@@ -8,6 +8,7 @@ import {
   FileText,
 } from "lucide-react";
 import type { Book, Entry } from "./model";
+import { downloadPdf } from "./pdfSource";
 import { siteUrl } from "./urls";
 import {
   getDocument,
@@ -42,10 +43,16 @@ export default function PdfViewer({
     setError("");
     setLoading(true);
     let alive = true;
-    const task = getDocument({ url: pdfUrl });
-    task.promise
+    let task: ReturnType<typeof getDocument> | undefined;
+    downloadPdf(pdfUrl)
+      .then((blob) => blob.arrayBuffer())
+      .then((data) => {
+        if (!alive) return;
+        task = getDocument({ data });
+        return task.promise;
+      })
       .then((doc) => {
-        if (alive) setPdf(doc);
+        if (alive && doc) setPdf(doc);
       })
       .catch(() => {
         if (alive) {
@@ -57,7 +64,7 @@ export default function PdfViewer({
       });
     return () => {
       alive = false;
-      void task.destroy();
+      void task?.destroy();
     };
   }, [pdfUrl]);
   useEffect(() => {
