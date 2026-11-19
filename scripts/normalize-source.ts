@@ -1,7 +1,5 @@
 import Papa from "papaparse";
 
-// This archive covers the late twentieth century. US two-digit source years
-// explicitly mean 19xx; do not rely on JavaScript's implementation-specific pivot.
 export function normalizeSourceCsv(csv: string) {
   const parsed = Papa.parse<Record<string, string>>(csv, {
     header: true,
@@ -17,7 +15,11 @@ export function normalizeSourceCsv(csv: string) {
     let date = raw;
     const us = /^(\d{1,2})\/(\d{1,2})\/(\d{2}|\d{4})$/.exec(raw);
     if (us) {
-      const year = us[3].length === 2 ? 1900 + Number(us[3]) : Number(us[3]);
+      let year = us[3];
+      if (year.length === 2) {
+        const century = Number(year) < 89 ? "20" : "19";
+        year = century + year;
+      }
       date = `${year}-${us[1].padStart(2, "0")}-${us[2].padStart(2, "0")}`;
     }
     if (

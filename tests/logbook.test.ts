@@ -337,6 +337,23 @@ test("source normalization preserves raw dates and rejects impossible US dates",
   );
 });
 
+test("two-digit US years use the archive's 1989–2088 window", () => {
+  const dates = [
+    ["2/29/00", "2000-02-29"],
+    ["12/31/88", "2088-12-31"],
+    ["1/1/89", "1989-01-01"],
+    ["12/31/99", "1999-12-31"],
+    ["12/31/1988", "1988-12-31"],
+  ];
+  const { rows } = normalizeSourceCsv(
+    Papa.unparse(dates.map(([date]) => ({ ...row, date }))),
+  );
+  assert.deepEqual(
+    rows.map(({ date_original, date }) => [date_original, date]),
+    dates,
+  );
+});
+
 test("loaded archive preserves supplied fields, missing hours, and book-page references", async () => {
   const config = JSON.parse(await readFile("data/catalog.json", "utf8"));
   const supplied = Papa.parse<Record<string, string>>(
@@ -380,7 +397,18 @@ test("loaded archive preserves supplied fields, missing hours, and book-page ref
     },
   );
   assert.deepEqual(result.errors, []);
-  assert.ok(result.entries.every((e) => e.route.every((id) => a[id])));
+  for (const entry of result.entries) {
+    const missing = entry.route.filter((id) => !a[id]);
+    if (missing.length) {
+      assert.ok(entry.notes.trim(), `${entry.id}: missing airport review note`);
+      assert.ok(
+        result.warnings.some((warning) =>
+          warning.includes(`(${entry.id}): unresolved airport(s): ${[...new Set(missing)].join(", ")}`),
+        ),
+        `${entry.id}: missing unresolved-airport warning`,
+      );
+    }
+  }
   for (const e of result.entries)
     assert.equal(
       e.totalHours,
