@@ -18,7 +18,6 @@ import {
   Layers,
   Info,
   RotateCcw,
-  Download,
 } from "lucide-react";
 import {
   airportLabel,
@@ -443,26 +442,6 @@ export default function App() {
             </span>
           </div>
         </section>
-        {data.meta.demo && (
-          <div className="demo-banner">
-            <Info size={16} />
-            <span>
-              <strong>Demonstration archive.</strong> These illustrative entries
-              and source pages are not a transcription of your dad’s logbook.
-            </span>
-            <a href={siteUrl("data/flights-template.csv")} download>
-              CSV template <Download size={14} />
-            </a>
-          </div>
-        )}
-        {data.meta.importNotice && (
-          <div className="demo-banner">
-            <Info size={16} />
-            <span>
-              <strong>Logbook loaded.</strong> {data.meta.importNotice}
-            </span>
-          </div>
-        )}
         <section className="filter-bar" aria-label="Logbook filters">
           <div className="filter-label">
             <SlidersHorizontal size={17} />
