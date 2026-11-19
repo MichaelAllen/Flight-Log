@@ -1,1 +1,1 @@
-{"root":["./src/app.tsx","./src/insights.tsx","./src/mapview.tsx","./src/pdfviewer.tsx","./src/main.tsx","./src/model.ts","./scripts/create-demo-pdf.ts","./scripts/import-data.ts","./scripts/importer.ts","./tests/logbook.test.ts","./vite.config.ts"],"version":"5.9.3"}
+{"root":["./src/app.tsx","./src/insights.tsx","./src/mapview.tsx","./src/pdfviewer.tsx","./src/main.tsx","./src/model.ts","./scripts/import-data.ts","./scripts/importer.ts","./scripts/load-source.ts","./scripts/normalize-source.ts","./tests/logbook.test.ts","./vite.config.ts"],"version":"5.9.3"}

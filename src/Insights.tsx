@@ -4,15 +4,17 @@ import { timeSeries, hours, type Entry } from "./model";
 export default function Insights({ entries }: { entries: Entry[] }) {
   const [period, setPeriod] = useState<"month" | "year">("month"),
     [group, setGroup] = useState<"type" | "tail">("type");
+  const hasHours = entries.some((e) => e.totalHours !== null);
   const series = timeSeries(entries, period),
-    max = Math.max(1, ...series.map((s) => s.hours)),
+    max = Math.max(1, ...series.map((s) => (hasHours ? s.hours : s.count))),
     total = series.at(-1)?.cumulative || 1;
   const groups = new Map<
     string,
     { name: string; count: number; hours: number; missing: number }
   >();
   entries.forEach((e) => {
-    const name = group === "type" ? e.aircraftType : e.tailNumber;
+    const name =
+      group === "type" ? e.aircraftType : e.tailNumber || "Unknown tail number";
     const g = groups.get(name) || { name, count: 0, hours: 0, missing: 0 };
     g.count++;
     g.hours += e.totalHours ?? 0;
@@ -28,7 +30,8 @@ export default function Insights({ entries }: { entries: Entry[] }) {
           <div>
             <span className="eyebrow">TIME IN THE SKY</span>
             <h2>
-              <BarChart3 size={20} /> Recorded hours
+              <BarChart3 size={20} />{" "}
+              {hasHours ? "Recorded hours" : "Logged entries"}
             </h2>
           </div>
           <div className="segmented">
@@ -52,17 +55,27 @@ export default function Insights({ entries }: { entries: Entry[] }) {
           <div
             className="bar-chart"
             role="img"
-            aria-label="Recorded flight hours over time"
+            aria-label={
+              hasHours
+                ? "Recorded flight hours over time"
+                : "Logged entries over time"
+            }
           >
             <div className="bars">
               {series.map((s) => (
                 <div className="bar-column" key={s.label}>
-                  <span className="bar-value">{hours(s.hours)}</span>
+                  <span className="bar-value">
+                    {hasHours
+                      ? hours(s.missing === s.count ? null : s.hours)
+                      : s.count}
+                  </span>
                   <div className="bar-track">
                     <div
                       className="bar"
-                      style={{ height: `${(s.hours / max) * 100}%` }}
-                      title={`${s.label}: ${hours(s.hours)} h · ${s.count} entries · ${s.missing} with missing hours`}
+                      style={{
+                        height: `${((hasHours ? s.hours : s.count) / max) * 100}%`,
+                      }}
+                      title={`${s.label}: ${hours(s.missing === s.count ? null : s.hours)} h · ${s.count} entries · ${s.missing} with missing hours`}
                     />
                   </div>
                   <span className="bar-label">
@@ -79,8 +92,11 @@ export default function Insights({ entries }: { entries: Entry[] }) {
           </div>
         )}
         <p className="chart-note">
-          Total-time column only. Blank hours are excluded; recorded categories
-          may overlap.
+          {!hasHours && entries.length > 0
+            ? "Showing entry counts because total flight hours have not been supplied. "
+            : ""}
+          Recorded flight hours only. Blank hours are excluded; recorded
+          categories may overlap.
         </p>
       </section>
       <section className="chart-card">
@@ -93,9 +109,14 @@ export default function Insights({ entries }: { entries: Entry[] }) {
           </div>
         </div>
         <div className="cumulative-value">
-          {hours(series.at(-1)?.cumulative ?? 0)} <span>hrs</span>
+          {hours(
+            hasHours || !entries.length
+              ? (series.at(-1)?.cumulative ?? 0)
+              : null,
+          )}{" "}
+          <span>hrs</span>
         </div>
-        {series.length > 0 && (
+        {series.length > 0 && hasHours && (
           <svg
             viewBox="0 0 600 170"
             role="img"
@@ -145,6 +166,9 @@ export default function Insights({ entries }: { entries: Entry[] }) {
           </svg>
         )}
         <p className="chart-note">
+          {!hasHours && entries.length > 0
+            ? "Awaiting total-time transcription. "
+            : ""}
           Cumulative hours for the filtered entries, not a certified lifetime
           total.
         </p>
@@ -178,12 +202,17 @@ export default function Insights({ entries }: { entries: Entry[] }) {
               <div className="fleet-label">
                 <strong>{g.name}</strong>
                 <span>
-                  {g.count} entries · {hours(g.hours)} h
+                  {g.count} entries ·{" "}
+                  {hours(g.missing === g.count ? null : g.hours)} h
                   {g.missing ? ` · ${g.missing} missing` : ""}
                 </span>
               </div>
               <div className="fleet-track">
-                <span style={{ width: `${(g.hours / fleetMax) * 100}%` }} />
+                <span
+                  style={{
+                    width: `${((hasHours ? g.hours : g.count) / (hasHours ? fleetMax : Math.max(1, ...fleet.map((x) => x.count)))) * 100}%`,
+                  }}
+                />
               </div>
             </div>
           ))}
@@ -206,9 +235,9 @@ export default function Insights({ entries }: { entries: Entry[] }) {
               <tr key={s.label}>
                 <td>{s.label}</td>
                 <td>{s.count}</td>
-                <td>{hours(s.hours)}</td>
+                <td>{hours(s.missing === s.count ? null : s.hours)}</td>
                 <td>{s.missing}</td>
-                <td>{hours(s.cumulative)}</td>
+                <td>{hours(hasHours ? s.cumulative : null)}</td>
               </tr>
             ))}
           </tbody>

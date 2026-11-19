@@ -1,19 +1,27 @@
 {
   "meta": {
-    "demo": true,
+    "demo": false,
     "title": "The Flight Log",
     "description": "A life in the sky, one entry at a time.",
     "airportSource": "OurAirports US airport data; downloaded November 2026. Historical identifiers need review.",
-    "privacyReviewed": true
+    "privacyReviewed": false,
+    "importNotice": "42 entries from PDF pages 2, 3, 4, 5. Preliminary transcription; uncertainties are preserved in each entry."
   },
   "books": [
     {
-      "id": "demo-book",
-      "title": "Demonstration logbook",
-      "pdf": "/books/demo-logbook.pdf",
-      "pageCount": 3,
-      "privacyReviewed": true
+      "id": "Logbook.pdf",
+      "title": "Pilot logbook",
+      "pdf": "/books/Logbook.pdf",
+      "pageCount": 37,
+      "privacyReviewed": false
     }
   ],
-  "extraNumericColumns": []
+  "extraNumericColumns": [],
+  "totalTimeColumn": "single_engine_land",
+  "airportAliases": {
+    "8A2": "60J"
+  },
+  "airportAliasNotes": {
+    "8A2": "Map to 60J per family correction; original CSV identifiers and route text are preserved."
+  }
 }

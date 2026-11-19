@@ -1,7 +1,7 @@
 node_modules/
 dist/
-.openai/*.tar.gz
-.openai/deploy/
-.openai/*.log
+.openai/
+*.tsbuildinfo
+*.tar.gz
 *.local
 .DS_Store

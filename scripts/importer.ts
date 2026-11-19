@@ -28,6 +28,10 @@ export function parseLog(
   books: Book[],
   airports: Record<string, Airport>,
   extraNumeric: string[] = [],
+  options: {
+    totalTimeColumn?: string;
+    airportAliases?: Record<string, string>;
+  } = {},
 ) {
   const parsed = Papa.parse<Record<string, string>>(csv, {
     header: true,
@@ -44,6 +48,20 @@ export function parseLog(
   for (const c of required)
     if (!parsed.meta.fields?.includes(c))
       errors.push(`Missing required column: ${c}`);
+  const totalTimeColumn = options.totalTimeColumn || "total_hours";
+  if (![...numericColumns, ...extraNumeric].includes(totalTimeColumn))
+    errors.push(`Unknown total-time column: ${totalTimeColumn}`);
+  if (options.totalTimeColumn && !parsed.meta.fields?.includes(totalTimeColumn))
+    errors.push(`Missing configured hours column: ${totalTimeColumn}`);
+  for (const [from, to] of Object.entries(options.airportAliases || {}))
+    if (
+      !/^[A-Z0-9]{2,7}$/.test(from) ||
+      !airports[to] ||
+      options.airportAliases?.[to]
+    )
+      errors.push(
+        `Invalid airport alias: ${from} -> ${to}; target must be a resolved canonical airport`,
+      );
   for (const [i, raw] of parsed.data.entries()) {
     const r = Object.fromEntries(
         Object.entries(raw).map(([k, v]) => [
@@ -53,7 +71,10 @@ export function parseLog(
       ) as Record<string, string>,
       label = `row ${i + 2} (${r.id || "no ID"})`;
     for (const c of required)
-      if (!r[c]) errors.push(`${label}: ${c} is required`);
+      if (!r[c] && !(c === "tail_number" && r.transcription_notes))
+        errors.push(`${label}: ${c} is required`);
+    if (!r.tail_number && r.transcription_notes)
+      warnings.push(`${label}: tail number not supplied; retained as unknown`);
     if (ids.has(r.id)) errors.push(`${label}: duplicate ID`);
     ids.add(r.id);
     if (
@@ -62,7 +83,10 @@ export function parseLog(
       new Date(r.date).toISOString().slice(0, 10) !== r.date
     )
       errors.push(`${label}: invalid ISO date`);
-    const route = (r.route || "").split(">").map((s) => s.trim().toUpperCase());
+    const route = (r.route || "")
+      .split(">")
+      .map((s) => s.trim().toUpperCase())
+      .map((id) => options.airportAliases?.[id] || id);
     if (route.some((s) => !s || !/^[A-Z0-9]{2,7}$/.test(s)))
       errors.push(
         `${label}: invalid route; use ordered identifiers separated by >`,
@@ -106,7 +130,7 @@ export function parseLog(
       tailNumber: r.tail_number,
       route,
       routeOriginal: r.route_original || r.route,
-      totalHours: numeric.total_hours,
+      totalHours: numeric[totalTimeColumn],
       remarks: r.remarks || "",
       bookId: r.source_book_id,
       pdfPage: page,

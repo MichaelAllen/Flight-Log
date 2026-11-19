@@ -1,0 +1,12 @@
+node_modules
+dist
+.git
+.openai
+.agents
+.codex
+.env
+.env.*
+*.local
+.DS_Store
+*.tar.gz
+*.tsbuildinfo
