@@ -38,6 +38,7 @@ import {
 } from "./model";
 import MapView from "./MapView";
 import Insights from "./Insights";
+import { downloadPdf } from "./pdfSource";
 import { siteUrl } from "./urls";
 const PdfViewer = lazy(() => import("./PdfViewer"));
 const initial = parseState(window.location.search);
@@ -254,6 +255,8 @@ export default function App() {
       })
       .then((loaded: Dataset) => {
         setData(loaded);
+        const firstBook = loaded.books[0];
+        if (firstBook) void downloadPdf(siteUrl(firstBook.pdf)).catch(() => {});
         setFilters((f) => canonicalizeFilters(f, loaded.meta.airportAliases));
       })
       .catch((e) => {
