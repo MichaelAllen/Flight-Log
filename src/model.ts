@@ -6,6 +6,10 @@ export interface Airport {
   lat: number;
   lon: number;
 }
+export function airportLabel(airport: Airport | undefined, field: "name" | "city") {
+  return airport && [airport[field], airport.state].filter(Boolean).join(", ");
+}
+
 export interface Book {
   id: string;
   title: string;

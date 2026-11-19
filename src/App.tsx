@@ -21,6 +21,7 @@ import {
   Download,
 } from "lucide-react";
 import {
+  airportLabel,
   aggregateConnections,
   airportStats,
   emptyFilters,
@@ -139,7 +140,7 @@ function EntryDetails({
             <span className="stop-number">{i + 1}</span>
             <div>
               <strong>{id}</strong>
-              <span>{data.airports[id]?.name || "Unresolved airport"}</span>
+              <span>{airportLabel(data.airports[id], "name") || "Unresolved airport"}</span>
             </div>
             {i === 0 ? (
               <small>DEPARTURE</small>
@@ -501,7 +502,7 @@ export default function App() {
               <option value="">All airports</option>
               {allAirports.map((id) => (
                 <option key={id} value={id}>
-                  {id} · {data.airports[id]?.city || "Unresolved"}
+                  {id} · {airportLabel(data.airports[id], "city") || "Unresolved"}
                 </option>
               ))}
             </select>
@@ -832,7 +833,7 @@ export default function App() {
                       <span>{a.id}</span>
                       <ArrowUpRight size={20} />
                     </div>
-                    <h3>{place?.name || "Unresolved airport"}</h3>
+                    <h3>{airportLabel(place, "name") || "Unresolved airport"}</h3>
                     <p>
                       {place
                         ? [place.city, place.state].filter(Boolean).join(", ")
