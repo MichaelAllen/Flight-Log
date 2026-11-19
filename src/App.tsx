@@ -38,6 +38,7 @@ import {
 } from "./model";
 import MapView from "./MapView";
 import Insights from "./Insights";
+import { siteUrl } from "./urls";
 const PdfViewer = lazy(() => import("./PdfViewer"));
 const initial = parseState(window.location.search);
 function MultiFilter({
@@ -246,7 +247,7 @@ export default function App() {
     [sort, setSort] = useState("newest");
   useEffect(() => {
     const c = new AbortController();
-    fetch("/data/logbook.json", { signal: c.signal })
+    fetch(siteUrl("data/logbook.json"), { signal: c.signal })
       .then((r) => {
         if (!r.ok) throw Error();
         return r.json();
@@ -373,7 +374,11 @@ export default function App() {
         Skip to logbook
       </a>
       <header className="site-header">
-        <a href="/" className="brand" aria-label="The Flight Log home">
+        <a
+          href={siteUrl("")}
+          className="brand"
+          aria-label="The Flight Log home"
+        >
           <span className="brand-symbol">
             <Plane size={24} strokeWidth={1.5} />
           </span>
@@ -444,7 +449,7 @@ export default function App() {
               <strong>Demonstration archive.</strong> These illustrative entries
               and source pages are not a transcription of your dad’s logbook.
             </span>
-            <a href="/data/flights-template.csv" download>
+            <a href={siteUrl("data/flights-template.csv")} download>
               CSV template <Download size={14} />
             </a>
           </div>

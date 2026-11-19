@@ -2,6 +2,7 @@ import { readFile, writeFile, mkdir } from "node:fs/promises";
 import path from "node:path";
 import { PDFDocument } from "pdf-lib";
 import { parseLog } from "./importer.ts";
+import { normalizeSourceCsv } from "./normalize-source.ts";
 import type { Airport, Book } from "../src/model.ts";
 const config = JSON.parse(await readFile("data/catalog.json", "utf8"));
 const airports: Record<string, Airport> = JSON.parse(
@@ -50,10 +51,10 @@ if (
   (!config.meta.privacyReviewed || books.some((b) => !b.privacyReviewed))
 )
   console.warn(
-    "LOCAL ARCHIVE: personal-information review is pending. Run npm run validate:publication before public hosting.",
+    "Archive privacy-review flags are unset. The explicit publication audit is available via npm run validate:publication.",
   );
 const result = parseLog(
-  await readFile("data/flights.csv", "utf8"),
+  normalizeSourceCsv(await readFile("data/flights.csv", "utf8")).csv,
   books,
   airports,
   config.extraNumericColumns || [],
@@ -69,6 +70,12 @@ if (result.errors.length) {
 }
 if (!result.entries.length) throw new Error("CSV contains no entries");
 const used = new Set(result.entries.flatMap((e) => e.route));
+const sourcePages = [...new Set(result.entries.map((e) => e.pdfPage))].sort(
+  (a, b) => a - b,
+);
+const importNotice = config.meta.demo
+  ? config.meta.importNotice
+  : `${result.entries.length} entries from PDF pages ${sourcePages.join(", ")}. Preliminary transcription; uncertainties are preserved in each entry.${result.entries.every((e) => e.totalHours === null) ? " Total flight hours have not been supplied." : ""}`;
 if (!process.argv.includes("--check")) {
   await mkdir("public/data", { recursive: true });
   await writeFile(
@@ -81,6 +88,7 @@ if (!process.argv.includes("--check")) {
       books,
       meta: {
         ...config.meta,
+        importNotice,
         totalTimeColumn: config.totalTimeColumn || "total_hours",
         airportAliases: config.airportAliases || {},
       },

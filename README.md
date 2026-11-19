@@ -15,7 +15,43 @@ npm run build
 npm run preview
 ```
 
-`dist/` can be deployed to any static HTTPS host. There is no database, authentication, or runtime upload endpoint. Vite serves development on port 5173. The app assumes deployment at the root of an origin. Unknown query parameters are ignored. State, including multiple type/tail values and selected entry, lives in query parameters and browser back/forward works.
+`dist/` can be deployed to any static HTTPS host. There is no database, authentication, or runtime upload endpoint. Vite serves development on port 5173. The app supports both a domain root and a repository subpath using Vite's `BASE_PATH` build setting. Unknown query parameters are ignored. State, including multiple type/tail values and selected entry, lives in query parameters and browser back/forward works.
+
+## GitHub Pages (primary deployment)
+
+The site deploys from **MichaelAllen/Flight-Log** to **https://michaelallen.github.io/Flight-Log/**.
+
+For routine updates, edit or replace **`data/flights.csv` inside this repository**, then commit and push to `main`. You can also edit the CSV on GitHub and commit there. No local import command, Node installation, or Docker rebuild is required for this workflow.
+
+```text
+Flight-Log/
+├── .github/workflows/pages.yml
+├── data/
+│   ├── flights.csv           # CSV to edit and push
+│   ├── catalog.json          # Hours source, books, and airport aliases
+│   └── airport-overrides.json
+└── public/books/
+    └── Logbook.pdf           # Complete scanned book, served by Pages
+```
+
+On every push to `main` (or a manual run from Actions), GitHub Actions installs the locked dependencies, normalizes/imports the CSV, validates the book references and data, builds `dist/`, runs the test suite, and deploys the build using the built-in GitHub token. Failed validation/build/tests stop publication and leave the last successful site online. The workflow reads the Pages base path automatically, including if a custom domain is added later. There are no personal tokens or repository secrets to configure.
+
+The canonical CSV accepts ISO `YYYY-MM-DD` or US `M/D/YY` dates (two-digit years mean 19xx); source date strings are retained in `date_original` during import. Keep IDs stable and use `>` between ordered airport stops. The configured `single_engine_land` hours source and `8A2` to `60J` alias remain in effect. The runtime JSON and archive status text are regenerated during every build, so do not edit `public/data/logbook.json` by hand. Only `dist/` is deployed.
+
+Replace the book at `public/books/Logbook.pdf` when needed. If its page count or filename changes, update its catalog entry in `data/catalog.json` too; PDF references and page counts are checked before deployment. Avoid Git LFS for PDFs served by Pages: the committed file should be the actual PDF.
+
+Repository settings must have **Settings → Pages → Source: GitHub Actions**. `.github/workflows/pages.yml` handles the rest. The workflow uses the `github-pages` environment, with deployment permissions limited to its deploy job. Pushes to other branches do not publish.
+
+To check the same repository-subpath build locally:
+
+```sh
+npm ci
+BASE_PATH=/Flight-Log/ npm run build
+npm test
+BASE_PATH=/Flight-Log/ npm run preview
+```
+
+The preview URL ends in `/Flight-Log/`. Root deployment and the optional Docker setup still use the default `/` base. The CSV/PDF and their contents become publicly accessible when published; existing privacy-review flags are metadata and the optional `validate:publication` audit is separate from the automatic data/build checks.
 
 ## Host with Docker
 
@@ -58,11 +94,11 @@ npm run build
 docker compose up -d --build
 ```
 
-The loader preserves the source CSV unchanged in `data/source/logbook.csv`, writes the canonical `data/flights.csv`, copies the PDF into `public/books/`, and updates the book catalog with its actual page count. It accepts ISO dates or US `M/D/YY` dates; two-digit years explicitly mean **19xx** for this historical archive. Original date strings are retained in `date_original`. It preserves the source IDs, route order, tail strings (without guessing an N prefix), remarks, categories, handwriting confidence, and transcription notes. Each load resets privacy-review flags to false.
+The optional local loader writes the canonical `data/flights.csv` without changing your supplied input files, copies the PDF into `public/books/`, and updates the book catalog with its actual page count. It accepts ISO dates or US `M/D/YY` dates; two-digit years explicitly mean **19xx** for this historical archive. Original date strings are retained in `date_original`. It preserves the source IDs, route order, tail strings (without guessing an N prefix), remarks, categories, handwriting confidence, and transcription notes. Each load resets privacy-review flags to false.
 
 The current input supplies tail numbers for all 42 entries. Unknown tails remain supported when documented in transcription notes, and are excluded from identified-aircraft counts. `totalTimeColumn` is configured as `single_engine_land` per user confirmation; its values are used directly as hours without adding other categories. `airportAliases` maps `8A2` to `60J` per user correction. The previous Miller Airport override has been removed. Aliases apply to each stop before aggregation and distance calculations, and historical share links are normalized to the canonical airport.
 
-**Private/local use:** normal validation and builds work with review flags false. **Before public hosting:** review/redact the full PDF (including identifying details on page 1), review all CSV fields, then set `meta.privacyReviewed` and every book's `privacyReviewed` to true and run `npm run validate:publication`. This strict check blocks unreviewed publication. Neither the loader nor the build uploads or publishes your files. The full PDF includes untranscribed pages; the CSV determines which entries appear in the app.
+**Private/local use:** normal validation and builds work with review flags false. **Before public hosting:** review/redact the full PDF (including identifying details on page 1), review all CSV fields, then set `meta.privacyReviewed` and every book's `privacyReviewed` to true and run `npm run validate:publication`. This explicit audit rejects unset review flags; it is not automatically enforced by the Pages workflow. Neither the local loader nor the build alone uploads or publishes your files. The full PDF includes untranscribed pages; the CSV determines which entries appear in the app. For GitHub Pages, pushing changes invokes the deployment workflow automatically; the local import/build commands themselves never publish.
 
 ### Canonical data maintenance
 

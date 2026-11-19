@@ -39,9 +39,7 @@ config.books = [
     privacyReviewed: false,
   },
 ];
-await mkdir("data/source", { recursive: true });
 await mkdir("public/books", { recursive: true });
-await writeFile("data/source/logbook.csv", original);
 await writeFile("data/flights.csv", csv + "\n");
 await writeFile("data/catalog.json", JSON.stringify(config, null, 2) + "\n");
 await copyFile(pdfPath, path.join("public/books", pdfName));
@@ -49,5 +47,5 @@ await copyFile(pdfPath, path.join("public/books", pdfName));
 await rm("public/books/demo-logbook.pdf", { force: true });
 await rm("public/data/flights-template.csv", { force: true });
 console.log(
-  `Loaded ${rows.length} entries and ${pdf.getPageCount()} PDF pages. Source CSV preserved unchanged in data/source/logbook.csv. Privacy review remains pending.`,
+  `Loaded ${rows.length} entries and ${pdf.getPageCount()} PDF pages into data/flights.csv and public/books/. Original input files are unchanged. Privacy review remains pending.`,
 );
