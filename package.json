@@ -1,0 +1,34 @@
+{
+  "name": "flight-logbook",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "validate": "tsx scripts/import-data.ts --check",
+    "import": "tsx scripts/import-data.ts",
+    "build": "npm run import && tsc -b && vite build",
+    "test": "tsx --test tests/*.test.ts",
+    "preview": "vite preview --host 0.0.0.0"
+  },
+  "dependencies": {
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "maplibre-gl": "^6.19.0",
+    "pdfjs-dist": "^6.5.438",
+    "papaparse": "^5.5.3",
+    "lucide-react": "^0.561.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "@types/papaparse": "^5.3.16",
+    "@types/node": "^24.10.0",
+    "@types/geojson": "^7946.0.16",
+    "typescript": "^5.9.3",
+    "vite": "^7.2.2",
+    "@vitejs/plugin-react": "^5.1.0",
+    "tsx": "^4.20.6",
+    "pdf-lib": "^1.17.1"
+  }
+}
