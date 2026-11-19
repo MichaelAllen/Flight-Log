@@ -1,0 +1,19 @@
+{
+  "meta": {
+    "demo": true,
+    "title": "The Flight Log",
+    "description": "A life in the sky, one entry at a time.",
+    "airportSource": "OurAirports US airport data; downloaded November 2026. Historical identifiers need review.",
+    "privacyReviewed": true
+  },
+  "books": [
+    {
+      "id": "demo-book",
+      "title": "Demonstration logbook",
+      "pdf": "/books/demo-logbook.pdf",
+      "pageCount": 3,
+      "privacyReviewed": true
+    }
+  ],
+  "extraNumericColumns": []
+}
