@@ -6,6 +6,7 @@ maplibregl.setWorkerUrl(mapWorkerUrl);
 import { Compass, Maximize, MapPin } from "lucide-react";
 import type { FeatureCollection } from "geojson";
 import {
+  airportLabel,
   aggregateConnections,
   resolvedLegs,
   type Entry,
@@ -253,7 +254,7 @@ export default function MapView(props: Props) {
         ? selected.route.flatMap((x, i) => (x === id ? [i + 1] : []))
         : [];
       el.textContent = stops.length ? `${stops.join(" / ")} · ${id}` : id;
-      el.title = `${a.name} — filter entries at ${id}`;
+      el.title = `${airportLabel(a, "name")} — filter entries at ${id}`;
       el.setAttribute("aria-label", el.title);
       el.onclick = (e) => {
         e.stopPropagation();
