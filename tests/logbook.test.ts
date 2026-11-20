@@ -121,6 +121,12 @@ test("date range inclusive, airport and search filters combine", () => {
     0,
   );
 });
+test("notes-only filtering excludes blank notes and remarks-only entries", () => {
+  const noted = { ...base, notes: "Check the registration" };
+  const entries = [noted, { ...base, notes: "  " }, { ...base, notes: "", remarks: "Solo" }];
+  assert.deepEqual(filterEntries(entries, emptyFilters), entries);
+  assert.deepEqual(filterEntries(entries, { ...emptyFilters, notesOnly: true }), [noted]);
+});
 test("all state round trips through a shareable URL", () => {
   const f = {
     ...emptyFilters,
@@ -131,6 +137,7 @@ test("all state round trips through a shareable URL", () => {
     tails: ["N9230S", "N12345"],
     airport: "60J",
     search: "solo & practice",
+    notesOnly: true,
     connection: "60J|SUT",
   };
   assert.deepEqual(

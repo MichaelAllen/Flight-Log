@@ -577,12 +577,12 @@ export default function App() {
           <button
             className={
               "filter-more " +
-              (advanced || filters.from || filters.to ? "active" : "")
+              (advanced || filters.from || filters.to || filters.notesOnly ? "active" : "")
             }
             onClick={() => setAdvanced((v) => !v)}
             aria-expanded={advanced}
           >
-            Dates
+            Dates &amp; notes
             <ChevronDown size={14} />
           </button>
           <label className="search-wrap">
@@ -631,6 +631,14 @@ export default function App() {
                 value={filters.to}
                 onChange={(e) => update({ to: e.target.value })}
               />
+            </label>
+            <label>
+              <input
+                type="checkbox"
+                checked={filters.notesOnly}
+                onChange={(e) => update({ notesOnly: e.target.checked })}
+              />
+              Only entries with transcription notes
             </label>
             {filters.from && filters.to && filters.from > filters.to && (
               <span role="status">
