@@ -797,14 +797,6 @@ p {
 .list-footer svg {
   margin-left: auto;
 }
-.load-more {
-  display: block;
-  width: 100%;
-  padding: 15px;
-  color: #32634e;
-  font-size: 13px;
-  background: #f3f7ed;
-}
 .explore-prompt {
   display: flex;
   align-items: center;
