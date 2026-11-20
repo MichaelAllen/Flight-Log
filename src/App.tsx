@@ -10,6 +10,7 @@ import {
   X,
   BookOpen,
   ExternalLink,
+  Flag,
   ArrowUpRight,
   Share2,
   Check,
@@ -112,6 +113,13 @@ function EntryDetails({
   const book = data.books.find((b) => b.id === entry.bookId),
     distance = estimatedDistance(entry, data.airports);
   const unresolved = entry.route.filter((id) => !data.airports[id]);
+  const entryUrl = new URL(siteUrl(""), window.location.origin);
+  entryUrl.search = serializeState(emptyFilters, entry.id, "atlas");
+  const reportUrl = new URL("https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=gOjNidycPE2iavQgwgkZxc12MtAh0qVNn76eWD6O_GFUNDRTVkhGS08zUVM3T0ZZVkROSjVLUktDVi4u");
+  reportUrl.searchParams.set(
+    "r23c5d44e66af4237a9bbb07e23343359",
+    `${formatDate(entry.date)} · ${entry.id} · ${entryUrl.href}`,
+  );
   return (
     <aside className="entry-detail" aria-label="Selected entry details">
       <div className="detail-top">
@@ -232,6 +240,16 @@ function EntryDetails({
         View original page
         <ExternalLink size={15} />
       </button>
+      <a
+        className="flag-link"
+        // Microsoft Forms displays query-string "+" spaces literally.
+        href={reportUrl.href.replaceAll("+", "%20")}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <Flag size={15} aria-hidden="true" />
+        Flag a mistake
+      </a>
     </aside>
   );
 }
