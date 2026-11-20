@@ -235,6 +235,74 @@ function EntryDetails({
     </aside>
   );
 }
+const entryBatchSize = 60;
+
+function FlightList({ entries, selectedId, onSelect, onClearFilters }: {
+  entries: Entry[];
+  selectedId: string;
+  onSelect: (id: string) => void;
+  onClearFilters: () => void;
+}) {
+  const [listLimit, setListLimit] = useState(entryBatchSize);
+  return (
+    <div
+      className="flight-list"
+      aria-live="polite"
+      onScroll={({ currentTarget: list }) => {
+        const remaining = list.scrollHeight - list.scrollTop - list.clientHeight;
+        if (listLimit < entries.length && remaining <= list.clientHeight) {
+          setListLimit(Math.min(listLimit + entryBatchSize, entries.length));
+        }
+      }}
+    >
+      {entries.slice(0, listLimit).map((e) => (
+        <button
+          key={e.id}
+          className={
+            "flight-row " +
+            (selectedId === e.id ? "selected" : "")
+          }
+          onClick={() => onSelect(e.id)}
+          aria-pressed={selectedId === e.id}
+        >
+          <div className="flight-date">
+            <span>{formatDate(e.date)}</span>
+            <span className="flight-hours">
+              {hours(e.totalHours)} <small>h</small>
+            </span>
+          </div>
+          <Route route={e.route} />
+          <div className="flight-meta">
+            <span>
+              <Plane size={13} />
+              {e.aircraftType}
+              <span className="meta-dot">·</span>
+              {e.tailNumber || "Unknown tail number"}
+            </span>
+            <ArrowUpRight size={16} />
+          </div>
+          {e.notes && (
+            <span className="review-tag">Transcription note</span>
+          )}
+        </button>
+      ))}
+      {!entries.length && (
+        <div className="empty-state">
+          <Search size={30} />
+          <h3>No entries found</h3>
+          <p>Try another year, aircraft, or airport.</p>
+          <button
+            className="text-button"
+            onClick={onClearFilters}
+          >
+            Clear all filters
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function App() {
   const [data, setData] = useState<Dataset | null>(null),
     [error, setError] = useState(""),
@@ -243,7 +311,6 @@ export default function App() {
     [view, setView] = useState(initial.view),
     [pdfOpen, setPdfOpen] = useState(false),
     [copied, setCopied] = useState(false),
-    [listLimit, setListLimit] = useState(60),
     [advanced, setAdvanced] = useState(false),
     [sort, setSort] = useState("newest");
   useEffect(() => {
@@ -318,7 +385,6 @@ export default function App() {
   const stats = summarize(entries);
   const airports = useMemo(() => airportStats(entries), [entries]);
   useEffect(() => {
-    setListLimit(60);
     if (data && selectedId && !entries.some((e) => e.id === selectedId)) {
       setSelectedId("");
       setPdfOpen(false);
@@ -693,60 +759,13 @@ export default function App() {
                     <ChevronDown size={12} />
                   </label>
                 </div>
-                <div className="flight-list" aria-live="polite">
-                  {sorted.slice(0, listLimit).map((e) => (
-                    <button
-                      key={e.id}
-                      className={
-                        "flight-row " +
-                        (selected?.id === e.id ? "selected" : "")
-                      }
-                      onClick={() => select(e.id)}
-                      aria-pressed={selected?.id === e.id}
-                    >
-                      <div className="flight-date">
-                        <span>{formatDate(e.date)}</span>
-                        <span className="flight-hours">
-                          {hours(e.totalHours)} <small>h</small>
-                        </span>
-                      </div>
-                      <Route route={e.route} />
-                      <div className="flight-meta">
-                        <span>
-                          <Plane size={13} />
-                          {e.aircraftType}
-                          <span className="meta-dot">·</span>
-                          {e.tailNumber || "Unknown tail number"}
-                        </span>
-                        <ArrowUpRight size={16} />
-                      </div>
-                      {e.notes && (
-                        <span className="review-tag">Transcription note</span>
-                      )}
-                    </button>
-                  ))}
-                  {!entries.length && (
-                    <div className="empty-state">
-                      <Search size={30} />
-                      <h3>No entries found</h3>
-                      <p>Try another year, aircraft, or airport.</p>
-                      <button
-                        className="text-button"
-                        onClick={() => setFilters({ ...emptyFilters })}
-                      >
-                        Clear all filters
-                      </button>
-                    </div>
-                  )}
-                  {entries.length > listLimit && (
-                    <button
-                      className="load-more"
-                      onClick={() => setListLimit((n) => n + 60)}
-                    >
-                      Show 60 more entries
-                    </button>
-                  )}
-                </div>
+                <FlightList
+                  key={sort + serializeState(filters, "", "atlas")}
+                  entries={sorted}
+                  selectedId={selectedId}
+                  onSelect={select}
+                  onClearFilters={() => setFilters({ ...emptyFilters })}
+                />
                 <div className="list-footer">
                   <span className="live-dot" />
                   {selected
