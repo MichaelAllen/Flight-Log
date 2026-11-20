@@ -1151,6 +1151,17 @@ p {
   justify-self: end;
   margin-top: -39px;
 }
+.flag-link {
+  grid-column: 1 / -1;
+  justify-self: end;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding-block: 6px;
+  color: var(--ink);
+  font-size: 13px;
+  text-underline-offset: 3px;
+}
 .pdf-dialog {
   width: min(1100px, 95vw);
   height: 90vh;
