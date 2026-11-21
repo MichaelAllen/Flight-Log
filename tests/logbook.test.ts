@@ -215,7 +215,7 @@ test("time series sorts periods and accumulates known hours", () => {
   );
 });
 test("landing totals distinguish zero from a missing count across periods", () => {
-  const entries = [
+  const entries: Entry[] = [
     { ...base, categories: { landings: 0 } },
     { ...base, categories: { landings: 3 } },
     { ...second, categories: {} },
