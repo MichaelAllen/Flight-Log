@@ -855,8 +855,9 @@ export default function App() {
               <span>{airports.length} airport identifiers</span>
             </div>
             <p className="chart-note">
-              Appearances count each recorded stop, including returns. Entries
-              count each logbook row once per airport.
+              Each stop after departure counts as one landing, including a return
+              to the starting airport. Appearances include the departure.
+              Entries count each flight once per airport.
             </p>
             <div className="airport-grid">
               {airports.map((a) => {
@@ -885,7 +886,10 @@ export default function App() {
                         <strong>{a.entries}</strong> entries
                       </span>
                       <span>
-                        <strong>{a.appearances}</strong> appearances
+                        <strong>{a.landings}</strong> {a.landings === 1 ? "landing" : "landings"}
+                      </span>
+                      <span>
+                        <strong>{a.appearances}</strong> {a.appearances === 1 ? "appearance" : "appearances"}
                       </span>
                     </div>
                     <small>

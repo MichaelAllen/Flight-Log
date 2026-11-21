@@ -1439,7 +1439,8 @@ p {
 }
 .airport-card-stats {
   display: flex;
-  gap: 20px;
+  flex-wrap: wrap;
+  gap: 6px 16px;
   font-size: 11px;
   color: #89977b;
   border-top: 1px solid var(--border);
