@@ -140,7 +140,7 @@ An override requires `reviewNote` and valid coordinates. If uncertain, keep the 
 
 - Connections are schematic airport-to-airport lines, not actual flown tracks. No paths are invented for local flights.
 - Shared connections are undirected for aggregation; count each entry once per connection, even with a return over the same leg. Selected entries show ordered stop numbers and directional arrows.
-- Airport cards count one landing per route stop after departure, including returns. Appearances count each recorded occurrence; entry counts deduplicate the airport within each entry. Unique airport identifiers may include unresolved codes, explicitly labeled in the UI.
+- Landing totals are recorded per flight. Airport appearances count each occurrence in the route, including departures and returns; entry counts deduplicate the airport within each entry. Unique airport identifiers may include unresolved codes, explicitly labeled in the UI.
 - Estimated distance uses great-circle nautical miles between recorded consecutive stops. If any stop is unresolved, the entry has no distance estimate. Missing time is excluded and counted separately.
 - Cumulative hours describe the current filtered set, not a certified lifetime total. Flight-list pagination renders 60 rows at a time.
 

@@ -855,8 +855,8 @@ export default function App() {
               <span>{airports.length} airport identifiers</span>
             </div>
             <p className="chart-note">
-              Each stop after departure counts as one landing, including a return
-              to the starting airport. Appearances include the departure.
+              Appearances count each time an airport is listed on a route,
+              including departures and returns.
               Entries count each flight once per airport.
             </p>
             <div className="airport-grid">
@@ -884,9 +884,6 @@ export default function App() {
                     <div className="airport-card-stats">
                       <span>
                         <strong>{a.entries}</strong> entries
-                      </span>
-                      <span>
-                        <strong>{a.landings}</strong> {a.landings === 1 ? "landing" : "landings"}
                       </span>
                       <span>
                         <strong>{a.appearances}</strong> {a.appearances === 1 ? "appearance" : "appearances"}
