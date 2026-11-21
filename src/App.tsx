@@ -16,6 +16,7 @@ import {
   Check,
   Navigation,
   Clock,
+  PlaneLanding,
   Layers,
   Info,
   RotateCcw,
@@ -166,6 +167,10 @@ function EntryDetails({
           </strong>
         </div>
         <div>
+          <span>LANDINGS</span>
+          <strong>{entry.categories.landings ?? "—"}</strong>
+        </div>
+        <div>
           <span>EST. CONNECTION DISTANCE</span>
           <strong>
             {distance === null ? "—" : Math.round(distance)} <small>nm</small>
@@ -286,7 +291,7 @@ function FlightList({ entries, selectedId, onSelect, onClearFilters }: {
           <div className="flight-date">
             <span>{formatDate(e.date)}</span>
             <span className="flight-hours">
-              {hours(e.totalHours)} <small>h</small>
+              {hours(e.totalHours)} <small>h · </small>{e.categories.landings ?? "—"} <small>{e.categories.landings === 1 ? "landing" : "landings"}</small>
             </span>
           </div>
           <Route route={e.route} />
@@ -685,6 +690,15 @@ export default function App() {
                 Recorded flight time
                 {stats.missing > 0 ? ` · ${stats.missing} missing` : ""}
               </span>
+            </div>
+          </div>
+          <div>
+            <span className="stat-icon">
+              <PlaneLanding size={20} />
+            </span>
+            <div>
+              <strong>{stats.count > 0 && stats.count === stats.missingLandings ? "—" : stats.landings}</strong>
+              <span>Recorded landings{stats.missingLandings > 0 ? ` · ${stats.missingLandings} missing` : ""}</span>
             </div>
           </div>
           <div>

@@ -1,37 +1,40 @@
 import { useState } from "react";
 import { BarChart3, TrendingUp, Plane } from "lucide-react";
-import { timeSeries, hours, type Entry } from "./model";
+import { timeSeries, groupMetric, hours, type ChartMetric, type Entry } from "./model";
 export default function Insights({ entries }: { entries: Entry[] }) {
   const [period, setPeriod] = useState<"month" | "year">("month"),
     [group, setGroup] = useState<"type" | "tail">("type");
-  const hasHours = entries.some((e) => e.totalHours !== null);
-  const series = timeSeries(entries, period),
-    max = Math.max(1, ...series.map((s) => (hasHours ? s.hours : s.count))),
-    total = series.at(-1)?.cumulative || 1;
-  const groups = new Map<
-    string,
-    { name: string; count: number; hours: number; missing: number }
-  >();
-  entries.forEach((e) => {
-    const name =
-      group === "type" ? e.aircraftType : e.tailNumber || "Unknown tail number";
-    const g = groups.get(name) || { name, count: 0, hours: 0, missing: 0 };
-    g.count++;
-    g.hours += e.totalHours ?? 0;
-    if (e.totalHours === null) g.missing++;
-    groups.set(name, g);
-  });
-  const fleet = [...groups.values()].sort((a, b) => b.hours - a.hours),
-    fleetMax = Math.max(1, ...fleet.map((g) => g.hours));
+  const [metric, setMetric] = useState<ChartMetric>("hours");
+  const series = timeSeries(entries, period, metric);
+  const hasValues = series.some((s) => s.missing < s.count);
+  const showEntryCounts = metric === "hours" && !hasValues;
+  const format = (value: number | null) =>
+    metric === "hours" ? hours(value) : value?.toLocaleString() ?? "—";
+  const barValue = (bucket: { count: number; value: number }) =>
+    showEntryCounts ? bucket.count : bucket.value;
+  const max = Math.max(1, ...series.map(barValue));
+  const total = series.at(-1)?.cumulative || 1;
+  const fleet = groupMetric(entries, metric, (e) =>
+    group === "type" ? e.aircraftType : e.tailNumber || "Unknown tail number",
+  ).sort((a, b) => barValue(b) - barValue(a));
+  const fleetMax = Math.max(1, ...fleet.map(barValue));
   return (
     <div className="insights-grid">
+      <div className="insights-metric segmented" role="group" aria-label="Insights chart metric">
+        {(["hours", "landings"] as const).map((option) => (
+          <button key={option} className={metric === option ? "active" : ""}
+            aria-pressed={metric === option} onClick={() => setMetric(option)}>
+            {option === "hours" ? "Hours" : "Landings"}
+          </button>
+        ))}
+      </div>
       <section className="chart-card wide">
         <div className="section-heading">
           <div>
-            <span className="eyebrow">TIME IN THE SKY</span>
+            <span className="eyebrow">FLIGHT ACTIVITY</span>
             <h2>
               <BarChart3 size={20} />{" "}
-              {hasHours ? "Recorded hours" : "Logged entries"}
+              {showEntryCounts ? "Logged entries" : `Recorded ${metric}`}
             </h2>
           </div>
           <div className="segmented">
@@ -56,26 +59,22 @@ export default function Insights({ entries }: { entries: Entry[] }) {
             className="bar-chart"
             role="img"
             aria-label={
-              hasHours
-                ? "Recorded flight hours over time"
-                : "Logged entries over time"
+              showEntryCounts ? "Logged entries over time" : `Recorded ${metric} over time`
             }
           >
             <div className="bars">
               {series.map((s) => (
                 <div className="bar-column" key={s.label}>
                   <span className="bar-value">
-                    {hasHours
-                      ? hours(s.missing === s.count ? null : s.hours)
-                      : s.count}
+                    {showEntryCounts ? s.count : format(s.missing === s.count ? null : s.value)}
                   </span>
                   <div className="bar-track">
                     <div
                       className="bar"
                       style={{
-                        height: `${((hasHours ? s.hours : s.count) / max) * 100}%`,
+                        height: `${(barValue(s) / max) * 100}%`,
                       }}
-                      title={`${s.label}: ${hours(s.missing === s.count ? null : s.hours)} h · ${s.count} entries · ${s.missing} with missing hours`}
+                      title={`${s.label}: ${format(s.missing === s.count ? null : s.value)} ${metric} · ${s.count} entries · ${s.missing} with missing ${metric}`}
                     />
                   </div>
                   <span className="bar-label">
@@ -92,11 +91,10 @@ export default function Insights({ entries }: { entries: Entry[] }) {
           </div>
         )}
         <p className="chart-note">
-          {!hasHours && entries.length > 0
+          {showEntryCounts && entries.length > 0
             ? "Showing entry counts because total flight hours have not been supplied. "
             : ""}
-          Recorded flight hours only. Blank hours are excluded; recorded
-          categories may overlap.
+          Blank {metric} are excluded.
         </p>
       </section>
       <section className="chart-card">
@@ -104,23 +102,23 @@ export default function Insights({ entries }: { entries: Entry[] }) {
           <div>
             <span className="eyebrow">BUILDING EXPERIENCE</span>
             <h2>
-              <TrendingUp size={20} /> Cumulative hours
+              <TrendingUp size={20} /> Cumulative {metric}
             </h2>
           </div>
         </div>
         <div className="cumulative-value">
-          {hours(
-            hasHours || !entries.length
+          {format(
+            hasValues || !entries.length
               ? (series.at(-1)?.cumulative ?? 0)
               : null,
           )}{" "}
-          <span>hrs</span>
+          <span>{metric === "hours" ? "hrs" : "landings"}</span>
         </div>
-        {series.length > 0 && hasHours && (
+        {series.length > 0 && hasValues && (
           <svg
             viewBox="0 0 600 170"
             role="img"
-            aria-label="Cumulative recorded hours within current filters"
+            aria-label={`Cumulative recorded ${metric} within current filters`}
             className="line-chart"
           >
             <defs>
@@ -159,18 +157,17 @@ export default function Insights({ entries }: { entries: Entry[] }) {
                 fill="#397b6d"
               >
                 <title>
-                  {s.label}: {hours(s.cumulative)} hours
+                  {s.label}: {format(s.cumulative)} {metric}
                 </title>
               </circle>
             ))}
           </svg>
         )}
         <p className="chart-note">
-          {!hasHours && entries.length > 0
+          {showEntryCounts && entries.length > 0
             ? "Awaiting total-time transcription. "
             : ""}
-          Cumulative hours for the filtered entries, not a certified lifetime
-          total.
+          Total recorded {metric} for the filtered entries.
         </p>
       </section>
       <section className="chart-card">
@@ -198,19 +195,19 @@ export default function Insights({ entries }: { entries: Entry[] }) {
         </div>
         <div className="fleet-bars">
           {fleet.map((g) => (
-            <div key={g.name}>
+            <div key={g.label}>
               <div className="fleet-label">
-                <strong>{g.name}</strong>
+                <strong>{g.label}</strong>
                 <span>
                   {g.count} entries ·{" "}
-                  {hours(g.missing === g.count ? null : g.hours)} h
+                  {format(g.missing === g.count ? null : g.value)} {metric === "hours" ? "h" : "landings"}
                   {g.missing ? ` · ${g.missing} missing` : ""}
                 </span>
               </div>
               <div className="fleet-track">
                 <span
                   style={{
-                    width: `${((hasHours ? g.hours : g.count) / (hasHours ? fleetMax : Math.max(1, ...fleet.map((x) => x.count)))) * 100}%`,
+                    width: `${(barValue(g) / fleetMax) * 100}%`,
                   }}
                 />
               </div>
@@ -225,9 +222,9 @@ export default function Insights({ entries }: { entries: Entry[] }) {
             <tr>
               <th>Period</th>
               <th>Entries</th>
-              <th>Recorded hours</th>
-              <th>Missing hours</th>
-              <th>Cumulative</th>
+              <th>Recorded {metric}</th>
+              <th>Missing {metric}</th>
+              <th>Cumulative {metric}</th>
             </tr>
           </thead>
           <tbody>
@@ -235,9 +232,9 @@ export default function Insights({ entries }: { entries: Entry[] }) {
               <tr key={s.label}>
                 <td>{s.label}</td>
                 <td>{s.count}</td>
-                <td>{hours(s.missing === s.count ? null : s.hours)}</td>
+                <td>{format(s.missing === s.count ? null : s.value)}</td>
                 <td>{s.missing}</td>
-                <td>{hours(hasHours ? s.cumulative : null)}</td>
+                <td>{format(hasValues ? s.cumulative : null)}</td>
               </tr>
             ))}
           </tbody>

@@ -182,6 +182,8 @@ test("hours use designated totals, missing is distinct from zero", () => {
   };
   assert.deepEqual(summarize([base, second, e]), {
     count: 3,
+    landings: 0,
+    missingLandings: 3,
     hours: 1.4,
     missing: 1,
     airports: 3,
@@ -202,7 +204,7 @@ test("time series sorts periods and accumulates known hours", () => {
   assert.deepEqual(
     timeSeries([second, base], "year").map((s) => [
       s.label,
-      s.hours,
+      s.value,
       s.cumulative,
       s.missing,
     ]),
@@ -211,6 +213,19 @@ test("time series sorts periods and accumulates known hours", () => {
       ["1996", 0, 1.4, 1],
     ],
   );
+});
+test("landing totals distinguish zero from a missing count across periods", () => {
+  const entries = [
+    { ...base, categories: { landings: 0 } },
+    { ...base, categories: { landings: 3 } },
+    { ...second, categories: {} },
+  ];
+  assert.deepEqual(timeSeries(entries, "year", "landings"), [
+    { label: "1995", value: 3, count: 2, missing: 0, cumulative: 3 },
+    { label: "1996", value: 0, count: 1, missing: 1, cumulative: 3 },
+  ]);
+  assert.equal(summarize(entries).landings, 3);
+  assert.equal(summarize(entries).missingLandings, 1);
 });
 test("duplicate IDs block import", () =>
   assert.ok(parse([row, row]).errors.some((e) => e.includes("duplicate ID"))));
