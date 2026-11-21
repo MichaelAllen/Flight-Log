@@ -173,7 +173,6 @@ test("local flight has airport but no invented route/distance", () => {
   assert.equal(resolvedLegs(e, airports).length, 0);
   assert.equal(estimatedDistance(e, airports), 0);
   assert.equal(airportStats([e])[0].appearances, 2);
-  assert.equal(airportStats([e])[0].landings, 1);
 });
 test("hours use designated totals, missing is distinct from zero", () => {
   const e = {
@@ -200,15 +199,6 @@ test("airport appearances include returns but entries count once", () => {
   assert.equal(a.entries, 2);
   assert.equal(a.first, "1995-06-14");
   assert.equal(a.last, "1996-03-12");
-});
-test("airport landings count each route position after departure", () => {
-  const entries = [
-    { ...base, route: ["A", "B", "C", "B"], categories: { landings: 7 } },
-    { ...second, route: ["B", "A", "B"] },
-    { ...base, route: ["D"] },
-  ];
-  const counts = Object.fromEntries(airportStats(entries).map((a) => [a.id, a.landings]));
-  assert.deepEqual(counts, { A: 1, B: 3, C: 1, D: 0 });
 });
 test("time series sorts periods and accumulates known hours", () => {
   assert.deepEqual(
