@@ -11,18 +11,18 @@ logbook-p02-r09,12/2/89,C-172,79232,SVH>SVH,Logbook.pdf,2,STV Local,,Landings [p
 logbook-p02-r10,12/4/89,PA28-140,4542F,SVH>SVH,Logbook.pdf,2,STV Local,,Takeoff and pattern work; emergency training; first solo,,10,1.5,,,,,,,,,10,,low,,12/4/89
 logbook-p02-r11,12/4/89,PA28-140,4542F,SVH>SVH,Logbook.pdf,2,STV Local,,Solo time,,11,0.5,,,,,,,,,3,,low,,12/4/89
 logbook-p02-r12,12/4/89,PA28-140,4542F,SVH>SVH,Logbook.pdf,2,STV Local,,Takeoffs; Lake Norman [partly illegible],,12,1.4,,,,,,,,,6,,medium,,12/4/89
-logbook-p02-r13,12/7/89,C-172,79232,NC30>NC30>GSO,Logbook.pdf,2,Moor - Moore Co - GBO,,Cross-country; control review; VOR/NDB,,13,3.1,,,,,,,,,3,,low,"Airport review: the sequence appears to read â""Moor - Moore Co - GBOâ"". The CSV maps both of the first two stops to NC30. Confirm whether the middle stop was Moore County (SOP). GBO is mapped to GSO per family confirmation.",12/7/89
-logbook-p03-r01,12/7/89,PA28-140,4542F,NC30>NC30,Logbook.pdf,3,Moore Co Local,,Solo,,1,0.5,,,,,,,,,3,,low,"Airport and aircraft review: the source reads â""Moore Coâ"" to â""localâ"" and â""Cessna 172â"", N79232. The CSV gives NC30 and PA28-140, 4542F. Confirm whether this local flight was at Moore County (SOP).",12/7/89
-logbook-p03-r02,12/26/89,PA28-140,4542F,14A>HBI>NC30,Logbook.pdf,3,Lake Norman Ashboro Moor[?],,Instructor endorsement [illegible signature],,2,2.4,,,,,,,,,6,,low,"Airport review: the middle name appears to read â""Ashboroâ"" (mapped to HBI). The last name looks like â""Moorâ€¦â"" and its ending is faint. Confirm NC30 for the last stop. Remarks begin â""Dual X Countryâ"".",12/26/89
-logbook-p03-r03,12/29/89,PA28-140,4542F,14A>SVH>14A,Logbook.pdf,3,L. Norman/STV - Local,,Instructor endorsement [illegible],,3,1.6,,,,,,,,,7,,low,"Airport review: the route appears to read â""L. Norman / STV - localâ"". The final 14A in the CSV is an interpretation. A return to Lake Norman is not explicit. The endorsement is difficult to read.",12/29/89
+logbook-p02-r13,12/7/89,C-172,79232,NC30>SOP>GSO,Logbook.pdf,2,Moor - Moore Co - GBO,,Cross-country; control review; VOR/NDB,,13,3.1,,,,,,,,,3,,low,,12/7/89
+logbook-p03-r01,12/7/89,PA28-140,4542F,SOP>SOP,Logbook.pdf,3,Moore Co Local,,Solo,,1,0.5,,,,,,,,,3,,low,,12/7/89
+logbook-p03-r02,12/26/89,PA28-140,4542F,14A>HBI>NC30>14A,Logbook.pdf,3,Lake Norman Ashboro Moor[?],,Instructor endorsement [illegible signature],,2,2.4,,,,,,,,,6,,low,,12/26/89
+logbook-p03-r03,12/29/89,PA28-140,4542F,14A>SVH>14A,Logbook.pdf,3,L. Norman/STV - Local,,Instructor endorsement [illegible],,3,1.6,,,,,,,,,7,,low,,12/29/89
 logbook-p03-r04,1/3/90,PA28-140,4542F,14A>14A,Logbook.pdf,3,L. Norman Local,,Solo,,4,1.6,,,,,,,,,2,,low,,1/3/90
-logbook-p03-r05,1/23/90,PA28-140,4542F,14A>FLO,Logbook.pdf,3,L. Norman Florence,,Aircraft ferry / Carolina Air Service [unclear],,5,1.7,,,,,,,,,1,,low,,1/23/90
-logbook-p03-r06,1/23/90,PA28-140,4542F,FLO>60J,Logbook.pdf,3,Florence Ocean Isle,,Aircraft solo ocean side [unclear]; instructor endorsement,,6,1.2,,,,,,,,,1,,low,,1/23/90
+logbook-p03-r05,1/23/90,PA28-140,4542F,14A>FLO,Logbook.pdf,3,L. Norman Florence,,SOLO endorsement,,5,1.7,,,,,,,,,1,,low,,1/23/90
+logbook-p03-r06,1/23/90,PA28-140,4542F,FLO>60J,Logbook.pdf,3,Florence Ocean Isle,,SOLO endorsement,,6,1.2,,,,,,,,,1,,low,,1/23/90
 logbook-p03-r07,1/24/90,PA28-140,4542F,60J>60J,Logbook.pdf,3,Ocean Isle Local,,Solo,,7,1,,,,,,,,,1,,low,,1/24/90
-logbook-p03-r08,1/27/90,PA28-140,4542F,60J>FLO,Logbook.pdf,3,Ocean Isle Florence,,Aircraft ferry; Carolina Air Service,,8,1.8,,,,,,,,,3,,low,,1/27/90
-logbook-p03-r09,1/27/90,PA28-140,4542F,FLO>14A,Logbook.pdf,3,Florence L. Norman,,Aircraft solo; instructor endorsement,,9,1.6,,,,,,,,,1,,low,,1/27/90
-logbook-p03-r10,2/7/90,PA28-140,4542F,14A>SVH>NC30,Logbook.pdf,3,L. Norman Statesville Mocksville,,Solo,,10,2.9,,,,,,,,,8,,low,"Airport review: â""Statesvilleâ"" is followed by a second place that appears to read â""Mocksvilleâ"". The CSV gives NC30 (Miller, Mooresville) for that stop. The exact airfield needs confirmation.",2/7/90
-logbook-p03-r11,2/8/90,PA28-140,4542F,14A>60J,Logbook.pdf,3,L. Norman Ocean Isle,,Aircraft solo; ocean side [unclear],,11,2.2,,,,,,,,,1,,low,,2/8/90
+logbook-p03-r08,1/27/90,PA28-140,4542F,60J>FLO,Logbook.pdf,3,Ocean Isle Florence,,SOLO endorsement,,8,1.8,,,,,,,,,3,,low,,1/27/90
+logbook-p03-r09,1/27/90,PA28-140,4542F,FLO>14A,Logbook.pdf,3,Florence L. Norman,,Aircraft solo; POP endorsement,,9,1.6,,,,,,,,,1,,low,,1/27/90
+logbook-p03-r10,2/7/90,PA28-140,4542F,14A>SVH>5NC2>NC30,Logbook.pdf,3,L. Norman Statesville Mocksville,,Solo,,10,2.9,,,,,,,,,8,,low,,2/7/90
+logbook-p03-r11,2/8/90,PA28-140,4542F,14A>60J,Logbook.pdf,3,L. Norman Ocean Isle,,Aircraft solo; Ocean Isle; Joe Furr,,11,2.2,,,,,,,,,1,,low,,2/8/90
 logbook-p03-r12,2/8/90,PA28-140,4542F,60J>FLO,Logbook.pdf,3,Ocean Isle Florence,,Carolina Air Service; endorsement,,12,0.9,,,,,,,,,1,,low,,2/8/90
 logbook-p03-r13,2/8/90,PA28-140,4542F,FLO>14A,Logbook.pdf,3,Florence L. Norman,,Aircraft solo; instructor signature,,13,1.4,,,,,,,,,1,,low,,2/8/90
 logbook-p04-r01,2/20/90,PA28-140,4542F,14A>14A,Logbook.pdf,4,Lake Norm Local,,"Takeoffs, crosswind and stalls; instructor endorsement",,1,1.8,,,,,,,,,6,,low,,2/20/90
@@ -66,7 +66,7 @@ logbook-p07-r09,8/29/95,PA28-161,3079M,60J>60J,Logbook.pdf,7,60J Local,,"Practic
 logbook-p07-r10,8/29/95,PA28-161,3079M,60J>CRE>60J,Logbook.pdf,7,60J CRE 60J,,Terri and Michael to MB for lunch,,10,0.8,,,,,,,,,2,,high,,29-Aug
 logbook-p07-r11,8/29/95,PA28-161,3079M,60J>CRE>60J,Logbook.pdf,7,60J CRE 60J,,Practice night landings,,11,1.1,,1.1,,,,,,,7,,high,,29-Aug
 logbook-p07-r12,9/3/95,PA28-161,3079M,60J>SUT>60J,Logbook.pdf,7,60J SUT 60J,,"Kristina's first ride, kids to Southport",,12,0.8,,,,,,,,,2,,high,,3-Sep
-logbook-p07-r13,9/5/95,PA28-161,3079M,60J>CRE>60J,Logbook.pdf,7,60J CRE 60J,,"Michael to MB for lunch, back with Kris",,13,0.8,,,,,,,,,2,,medium,,5-Sep
+logbook-p07-r13,9/5/95,PA28-161,3079M,60J>CRE>60J,Logbook.pdf,7,60J CRE 60J,,"Michael to MB for lunch, M&K back",,13,0.8,,,,,,,,,2,,medium,,5-Sep
 logbook-p08-r01,9/7/95,PA28-161,3079M,60J>60J,Logbook.pdf,8,60J Local,,HC and his kids sightseeing,,1,1.1,,,,,,,,,2,,medium,,7-Sep
 logbook-p08-r02,9/10/95,PA28-161,3079M,60J>CRE,Logbook.pdf,8,60J CRE,,Fuel,,2,0.4,,,,,,,,,1,,high,,10-Sep
 logbook-p08-r03,9/10/95,PA28-161,3079M,CRE>GSO,Logbook.pdf,8,CRE GSO,,Michael and I visit Deb,,3,1.8,,,,,,,,,1,,high,,10-Sep
@@ -78,7 +78,7 @@ logbook-p08-r08,9/13/95,PA28-161,3079M,60J>ILM>60J,Logbook.pdf,8,60J ILM 60J,,Te
 logbook-p08-r09,9/16/95,PA28-161,3079M,60J>CRE>60J,Logbook.pdf,8,60J CRE 60J,,Fuel and air vents,,9,0.7,,,,,,,,,1,,high,,16-Sep
 logbook-p08-r10,9/17/95,PA28-161,3079M,60J>CRE>GGE>60J,Logbook.pdf,8,60J CRE GGE 60J,,Dad and I to see Clay lighthouse,,10,1.9,,,,,,,,,3,,medium,,17-Sep
 logbook-p08-r11,9/22/95,PA28-161,3079M,60J>60J,Logbook.pdf,8,60J Local,,"Dad and I to Wilmington, turned back for weather",,11,0.7,,,,,,,,,1,,high,,22-Sep
-logbook-p08-r12,9/25/95,PA28-161,3079M,60J>CRE>60J,Logbook.pdf,8,60J CRE 60J,,"Walt's first ride, to NMB for fuel",,12,0.5,,,,,,,,,2,,medium,,25-Sep
+logbook-p08-r12,9/25/95,PA28-161,3079M,60J>CRE>60J,Logbook.pdf,8,60J CRE 60J,,"Watts’ first ride, to NMB for fuel",,12,0.5,,,,,,,,,2,,medium,,25-Sep
 logbook-p09-r01,10/9/95,PA28-161,3079M,60J>60J,Logbook.pdf,9,60J Local,,"Terri and I sightseeing, Lake Waccamaw",,1,1.2,,,,,,,,,1,,high,,9-Oct
 logbook-p09-r02,10/9/95,PA28-161,3079M,60J>CRE>60J,Logbook.pdf,9,60J CRE 60J,,Michael and I to MB for ice cream,,2,0.7,,,,,,,,,2,,high,,9-Oct
 logbook-p09-r03,10/10/95,PA28-161,3079M,60J>60J,Logbook.pdf,9,60J Local,,Mom's first ride,,3,0.3,,,,,,,,,1,,high,,10-Oct
@@ -105,8 +105,8 @@ logbook-p10-r10,11/20/95,PA28-161,3079M,60J>CRE>SVH>GSO,Logbook.pdf,10,60J CRE S
 logbook-p10-r11,11/21/95,PA28-161,3079M,GSO>60J,Logbook.pdf,10,GSO 60J,,Home from Deb's,,11,1.9,,,,,,,,,1,,high,,21-Nov
 logbook-p10-r12,11/23/95,PA28-161,3079M,60J>CRE>60J,Logbook.pdf,10,60J - CRE - 60J,,Whole family first to lunch,,12,0.9,,,,,,,,,2,,high,,23-Nov
 logbook-p10-r13,11/23/95,PA28-161,3079M,60J>ILM>60J,Logbook.pdf,10,60J - ILM - 60J,,Clarke and Renee sightseeing,,13,1.1,,,,,,,,,2,,high,,23-Nov
-logbook-p11-r01,11/25/95,PA28-161,3079M,60J>RCZ>JQF,Logbook.pdf,11,60J - 45J - 3N8,,Terri and Michael to Concord,,1,1.8,,,,,,,,,1,,high,"Historical 45J is mapped to RCZ (AirNav airport identifier change index). Historical 3N8 is mapped to JQF (North Carolina Geodetic Survey, Concord baseline)",25-Nov
-logbook-p11-r02,11/26/95,PA28-161,3079M,JQF>RCZ>60J,Logbook.pdf,11,3N8 - 45J - 60J,,Back from Concord,,2,1.4,,,,,,,,,1,,high,"Historical 3N8 is mapped to JQF (North Carolina Geodetic Survey, Concord baseline). Historical 45J is mapped to RCZ (AirNav airport identifier change index)",26-Nov
+logbook-p11-r01,11/25/95,PA28-161,3079M,60J>JQF,Logbook.pdf,11,60J - 45J - 3N8,,Terri and Michael to Concord,,1,1.8,,,,,,,,,1,,high,"Historical 3N8 is mapped to JQF (North Carolina Geodetic Survey, Concord baseline)",25-Nov
+logbook-p11-r02,11/26/95,PA28-161,3079M,JQF>60J,Logbook.pdf,11,3N8 - 45J - 60J,,Back from Concord,,2,1.4,,,,,,,,,1,,high,"Historical 3N8 is mapped to JQF (North Carolina Geodetic Survey, Concord baseline)",26-Nov
 logbook-p11-r03,11/28/95,PA28-161,3079M,60J>CRE>HYW>CPC>ACZ>60J,Logbook.pdf,11,60J - CRE - HYW - CPC - ACZ - 60J,,Cross-country practice and sightseeing,,3,3,,,,,,,,,4,,high,,28-Nov
 logbook-p11-r04,12/2/95,PA28-161,3079M,60J>43A>GSO,Logbook.pdf,11,60J - 43A - GSO,,Michael to Deb's for parade,,4,1.8,,,,,,,,,1,,high,,2-Dec
 logbook-p11-r05,12/3/95,PA28-161,3079M,GSO>43A>60J,Logbook.pdf,11,GSO - 43A - 60J,,Back from above to work,,5,1.8,,,,,,,,,1,,high,,3-Dec
@@ -242,7 +242,7 @@ logbook-p21-r03,3/2/98,PA28-161,3079M,60J>JNX>60J,Logbook.pdf,21,60J - JNX - 60J
 logbook-p21-r04,4/5/98,PA28-161,3079M,60J>CRE>60J,Logbook.pdf,21,60J - CRE Local - 60J,,Gas and just flying,,4,1.3,,,,,,,,,2,,high,,5-Apr
 logbook-p21-r05,4/25/98,PA28-161,3079M,60J>GSO>60J,Logbook.pdf,21,60J - GBO[?] - 60J,,Get Deb for M's school meeting,,5,3.3,,,,,,,,,2,,high,,25-Apr
 logbook-p21-r06,4/26/98,PA28-161,3079M,60J>CRE>GSO>SVH>60J,Logbook.pdf,21,60J - CRE - GSO - SVH - 60J,,"Deb back, Terri and I to Statesville open house",,6,5,,,,,,,,,4,,high,,26-Apr
-logbook-p21-r07,5/5/98,PA28-161,3079M,60J>CRE>LKR>CRE>60J,Logbook.pdf,21,60J - CRE - LKR - CRE - 60J,,"Tach check and fuel, then just fly to Lancaster",,7,3.9,,,,,,,,,4,,medium,"Verify the middle identifier, read as LKR from the letters and place name.",5-May
+logbook-p21-r07,5/5/98,PA28-161,3079M,60J>CRE>LKR>CRE>60J,Logbook.pdf,21,60J - CRE - LKR - CRE - 60J,,"Tach check and fuel, then just fly to Lancaster",,7,3.9,,,,,,,,,4,,medium,,5-May
 logbook-p21-r08,5/19/98,PA28-161,3079M,60J>CRE,Logbook.pdf,21,60J - CRE,,To CRE to change tach out,,8,0.4,,,,,,,,,1,,high,,19-May
 logbook-p21-r09,5/19/98,PA28-161,3079M,CRE>60J,Logbook.pdf,21,CRE - 60J,,Back from above,,9,0.5,,,,,,,,,1,,high,,19-May
 logbook-p21-r10,5/27/98,PA28-161,3079M,60J>60J,Logbook.pdf,21,60J - 60J,,Takeoff and return to land,,10,0.3,,,,,,,,,1,,high,,27-May
@@ -266,7 +266,7 @@ logbook-p23-r01,10/30/98,PA28-161,3079M,60J>GWW,Logbook.pdf,23,60J - GWW,,T and 
 logbook-p23-r02,10/31/98,PA28-161,3079M,GWW>W17>JNX>GWW,Logbook.pdf,23,GWW - W17 - JNX - GWW,,"NC Wing Weekend, see back for endorsement",,2,3,,,,,,,,,6,,medium,Intermediate identifier appears W17. Verify historical airport.,31-Oct
 logbook-p23-r03,10/31/98,PA28-161,3079M,GWW>60J,Logbook.pdf,23,GWW - 60J,,Back from Wings,,3,0.9,,,,,,,,,1,,high,,31-Oct
 logbook-p23-r04,11/1/98,PA28-161,3079M,60J>GWW>60J,Logbook.pdf,23,60J - GWW - 60J,,T to do Pinch Hitter,,4,2.2,,,,,,,,,2,,high,,1-Nov
-logbook-p23-r05,11/2/98,PA28-161,3079M,60J>PYG>EQY>MRH>60J,Logbook.pdf,23,60J - PGX[?] - EQY - MRH - 60J,,M and I to get Clarke and take him to Beaufort,,5,5.2,,,,,,,,,4,,low,Small text above the line may read PGV. An insertion mark appears before EQY. Verify this potential stop.,2-Nov
+logbook-p23-r05,11/2/98,PA28-161,3079M,60J>PYG>EQY>MRH>60J,Logbook.pdf,23,60J - PGX[?] - EQY - MRH - 60J,,M and I to get Clarke and take him to Beaufort,,5,5.2,,,,,,,,,4,,low,,2-Nov
 logbook-p23-r06,11/10/98,PA28-161,3079M,60J>CRE>60J,Logbook.pdf,23,60J - CRE - 60J,,T and L to movies and lunch,,6,1.5,,,,,,,,,2,,medium,,10-Nov
 logbook-p23-r07,11/21/98,PA28-161,3079M,60J>GSO,Logbook.pdf,23,60J - GSO,,"M, K and I meet T at GSO, Thanksgiving",,7,1.8,,,,,,,,,1,,high,,21-Nov
 logbook-p23-r08,11/25/98,PA28-161,3079M,GSO>60J,Logbook.pdf,23,GSO - 60J,,Back from above,,8,2,,,,,,,,,1,,high,,25-Nov
@@ -276,11 +276,11 @@ logbook-p23-r11,12/2/98,PA28-161,3079M,60J>GSO>60J,Logbook.pdf,23,60J - GSO - 60
 logbook-p23-r12,12/7/98,PA28-161,3079M,60J>CRE>SVH>60J,Logbook.pdf,23,60J - CRE - SVH - 60J,,Check out Statesville house repairs,,12,4.4,,,,,,,,,3,,high,,7-Dec
 logbook-p23-r13,1/12/99,PA28-161,3079M,60J>CRE>UKF,Logbook.pdf,23,60J - CRE - UKF,,"To mountains to look, oil and filter change",,13,3.2,,,,,,,,,2,,high,,12-Jan
 logbook-p24-r01,1/12/99,PA28-161,3079M,UKF>AVL>60J,Logbook.pdf,24,UKF - AVL - 60J,,"Mountain flying, home from above",,1,2.7,,,,,,,,,1,,high,,12-Jan
-logbook-p24-r02,1/19/99,PA28-161,3079M,60J>CRE>60J>DLC>EHO>AVL>7A8>SVH>60J>CRE,Logbook.pdf,24,60J - CRE - 60J - DLC - EHO - AVL - 7A8 - SVH - 60J - CRE,,Harley mountain flying and to CRE for service,,2,6.7,,,,,,,,,7,,medium,"Route spans two handwritten lines. DLC, EHO and 7A8 merit historical review.",19-Jan
+logbook-p24-r02,1/19/99,PA28-161,3079M,60J>CRE>60J>DLC>EHO>AVL>7A8>SVH>60J>CRE,Logbook.pdf,24,60J - CRE - 60J - DLC - EHO - AVL - 7A8 - SVH - 60J - CRE,,Harry mountain flying and to CRE for service,,2,6.7,,,,,,,,,7,,medium,,19-Jan
 logbook-p24-r03,1/25/99,PA28-161,3079M,CRE>60J,Logbook.pdf,24,CRE - 60J,,Home from above service,,3,0.4,,,,,,,,,1,,high,,25-Jan
-logbook-p24-r04,1/26/99,PA28-161,3079M,60J>FLO>FAY>60J,Logbook.pdf,24,60J - FIO[?] - FAY - 60J,,"Just flying, then to Fayetteville to check VOR antenna",,4,2.7,,,,,,,,,2,,low,First intermediate stop resembles FIO or F10. Approach box contains an overwritten mark.,26-Jan
+logbook-p24-r04,1/26/99,PA28-161,3079M,60J>FLO>FAY>60J,Logbook.pdf,24,60J - FIO[?] - FAY - 60J,,"Just flying, then to Fayetteville to check VOR antenna",,4,2.7,,,,,,,,,2,,low,,26-Jan
 logbook-p24-r05,1/26/99,PA28-161,3079M,60J>CRE>60J,Logbook.pdf,24,60J - CRE - 60J,,Michael and Kina for ice cream,,5,0.7,,,,,,,,,2,,high,,26-Jan
-logbook-p24-r06,2/7/99,PA28-161,3079M,60J>MKS>MNI>60J,Logbook.pdf,24,60J - 50J - MNI - 60J,,Just flying,,6,2.3,,,,,,,,,1,,low,"Two intermediate identifiers are unclear, possibly 50J and MNI. Verify both before mapping.",7-Feb
+logbook-p24-r06,2/7/99,PA28-161,3079M,60J>MKS>MNI>60J,Logbook.pdf,24,60J - 50J - MNI - 60J,,Just flying,,6,2.3,,,,,,,,,1,,low,,7-Feb
 logbook-p24-r07,2/8/99,PA28-161,3079M,60J>CRE>FAY>60J,Logbook.pdf,24,60J - CRE - FAY - 60J,,Fuel and Fayetteville VOR,,7,2.4,,,,,,,,,3,,high,,8-Feb
 logbook-p24-r08,2/13/99,PA28-161,3079M,60J>60J,Logbook.pdf,24,60J - Local - 60J,,Lindsey â€¦ flying,,8,1.9,,,,,,,,,2,,medium,,13-Feb
 logbook-p24-r09,2/15/99,PA28-161,3079M,60J>CRE>60J,Logbook.pdf,24,60J - CRE - 60J,,Fuel and fly,,9,1,,,,,,,,,2,,high,,15-Feb
@@ -289,8 +289,8 @@ logbook-p24-r11,2/23/99,PA28-161,3079M,CRE>60J,Logbook.pdf,24,CRE - 60J,,Back fr
 logbook-p24-r12,3/2/99,PA28-161,3079M,60J>CRE>LBT>60J,Logbook.pdf,24,60J - CRE - LBT - 60J,,Fuel and just flying,,12,2,,,,,,,,,3,,high,,2-Mar
 logbook-p24-r13,3/16/99,PA28-161,3079M,60J>CRE>60J,Logbook.pdf,24,60J - Local - CRE - Local - 60J,,Sightseeing,,13,1.6,,,,,,,,,3,,high,,16-Mar
 logbook-p25-r01,3/23/99,PA28-161,3079M,60J>SVH>CAE>60J,Logbook.pdf,25,60J - SVH - CAE - 60J,,Just flying,,1,5,,,,,,,,,3,,high,,23-Mar
-logbook-p25-r02a,3/30/99,PA28-161,3079M,60J>CRE,Logbook.pdf,25,60J - CRE,,Fuel,,2a,1,,,,,,,,,2,,medium,"Upper entry on shared ruled line 2. Check whether a return was intended, as only CRE is visible after 60J.",30-Mar
-logbook-p25-r02b,4/13/99,PA28-161,3079M,60J>CPC>60J,Logbook.pdf,25,60J - CPC - 60J,,Fuel,,2b,1,,,,,,,,,2,,medium,Lower entry on shared ruled line 2. Remarks are dittoed and the whole-hour digit is overwritten.,13-Apr
+logbook-p25-r02a,3/30/99,PA28-161,3079M,60J>CRE>60J,Logbook.pdf,25,60J - CRE,,Fuel,,2a,1,,,,,,,,,2,,medium,,30-Mar
+logbook-p25-r02b,4/13/99,PA28-161,3079M,60J>CPC>60J,Logbook.pdf,25,60J - CPC - 60J,,Fuel,,2b,1,,,,,,,,,2,,medium,,13-Apr
 logbook-p25-r03,4/20/99,PA28-161,3079M,60J>CPC>CRE>60J,Logbook.pdf,25,60J - CPC - CRE - 60J,,Pick up boat part,,3,1.6,,,,,,,,,3,,high,,20-Apr
 logbook-p25-r04,5/4/99,PA28-161,3079M,60J>CRE>60J,Logbook.pdf,25,60J - CRE - Local - 60J,,Oil and filter and local,,4,1.3,,,,,,,,,2,,high,,4-May
 logbook-p25-r05,5/18/99,PA28-161,3079M,60J>OAJ>ILM>60J,Logbook.pdf,25,60J - OAJ - ILM - 60J,,Just fly and see B-17,,5,2.4,,,,,,,,,2,,high,,18-May
@@ -316,16 +316,16 @@ logbook-p26-r11,12/9/99,PA28-161,3079M,60J>ILM>CRE>ILM>60J,Logbook.pdf,26,60J - 
 logbook-p27-r01,1/1/00,PA28-161,3079M,60J>CRE>60J,Logbook.pdf,27,60J - CRE - 60J,,Michael and I to MB for lunch,,1,1,,,,,,,,,2,,high,,1-Jan
 logbook-p27-r02,1/11/00,PA28-161,3079M,60J>FAY>60J,Logbook.pdf,27,60J - FAY - 60J,,IFR certification,,2,1.9,,,,,,,,,2,,high,,11-Jan
 logbook-p27-r03,1/16/00,PA28-161,3079M,60J>GGE>CRE>60J,Logbook.pdf,27,60J - GGE - CRE - 60J,,Clarke and I just flying,,3,1.8,,,,,,,,,2,,high,,16-Jan
-logbook-p27-r04,1/27/00,PA28-161,3079M,60J>ILM>60J>CRE>60J,Logbook.pdf,27,60J - ILM - 60J - CRE - 60J,,"T and I to ILM, MB lunch",,4,1.3,,,,,,,,,3,,medium,One word after ILM unclear.,27-Jan
+logbook-p27-r04,1/27/00,PA28-161,3079M,60J>ILM>60J>CRE>60J,Logbook.pdf,27,60J - ILM - 60J - CRE - 60J,,"T and I to ILM, MB lunch",,4,1.3,,,,,,,,,3,,medium,,27-Jan
 logbook-p27-r05,1/28/00,PA28-161,3079M,60J>CRE,Logbook.pdf,27,60J - CRE,,For muffler leaks check,,5,0.4,,,,,,,,,1,,high,,28-Jan
 logbook-p27-r06,2/7/00,PA28-161,3079M,CRE>60J,Logbook.pdf,27,CRE - 60J,,Back from above,,6,0.4,,,,,,,,,1,,high,,7-Feb
 logbook-p27-r07,2/10/00,PA28-161,3079M,60J>60J,Logbook.pdf,27,60J - Local - 60J,,M and I test watch,,7,0.2,,,,,,,,,1,,high,,10-Feb
 logbook-p27-r08,2/16/00,PA28-161,3079M,60J>RWI>60J,Logbook.pdf,27,60J - RWI - 60J,,Fireman to pick up truck,,8,2.9,,,,,,,,,2,,high,,16-Feb
 logbook-p27-r09,2/21/00,PA28-161,3079M,60J>CQW>AVL,Logbook.pdf,27,60J - [crossed out] 42J Cheraw - AVL,,T and Kristina to Asheville,,9,2.6,,,,,,,,,2,,low,"The middle identifier looks like 42J. Small text may read Cheraw, historically 47J (now CQW). Confirm the handwriting.",21-Feb
-logbook-p27-r10,2/22/00,PA28-161,3079M,AVL>GSO>MEB>60J,Logbook.pdf,27,AVL - GSO - NCb[?] - 60J,,Pick up Michael at GSO,,10,3.2,,,,,,,,,2,,low,Third stop appears NC6â€¦ with final characters unclear.,22-Feb
+logbook-p27-r10,2/22/00,PA28-161,3079M,AVL>GSO>MEB>60J,Logbook.pdf,27,AVL - GSO - NCb[?] - 60J,,Pick up Michael at GSO,,10,3.2,,,,,,,,,2,,low,,22-Feb
 logbook-p27-r11,2/29/00,PA28-161,3079M,60J>CRE>CRE,Logbook.pdf,27,60J - CRE - Local - CRE,,"Meet T, oil and filter",,11,1.3,,,,,,,,,2,,high,,Feb-29
 logbook-p27-r12,2/29/00,PA28-161,3079M,CRE>60J,Logbook.pdf,27,CRE - Local - 60J,,Back from above,,12,0.8,,,,,,,,,1,,high,,Feb-29
-logbook-p27-r13,3/7/00,PA28-161,3079M,60J>RIC>TGI>60J,Logbook.pdf,27,60J - RIC - TGI - 60J,,T and I to Richmond and Tangier,,13,6.8,,,,,,,,,3,,medium,One entry spans March 7â€“8. The date field uses the first day.,3/7-3/8
+logbook-p27-r13,3/7/00,PA28-161,3079M,60J>RIC>TGI>60J,Logbook.pdf,27,60J - RIC - TGI - 60J,,T and I to Richmond and Tangier; overnight in Richmond,,13,6.8,,,,,,,,,3,,medium,,3/7-3/8
 logbook-p28-r01,3/28/00,PA28-161,3079M,60J>CRE,Logbook.pdf,28,60J - Local - CRE,,Just fly and to get tire,,1,0.9,,,,,,,,,2,,medium,,28-Mar
 logbook-p28-r02,3/31/00,PA28-161,3079M,CRE>60J,Logbook.pdf,28,CRE - 60J,,Back from above,,2,0.4,,,,,,,,,1,,high,,31-Mar
 logbook-p28-r03,4/19/00,PA28-161,3079M,60J>CRE>60J,Logbook.pdf,28,60J - CRE - 60J,,Michael and I just fly and gas,,3,0.7,,,,,,,,,2,,high,,19-Apr
@@ -338,7 +338,7 @@ logbook-p28-r09,10/24/00,PA28-161,3079M,60J>60J,Logbook.pdf,28,60J - Local - 60J
 logbook-p28-r10,10/31/00,PA28-161,3079M,60J>CRE,Logbook.pdf,28,60J - Local - CRE,,Local and to Strand for annual,,10,1.1,,,,,,,,,1,,high,,31-Oct
 logbook-p28-r11,11/7/00,PA28-161,3079M,CRE>60J,Logbook.pdf,28,CRE - [crossed out] 60J,,Back from annual,,11,0.3,,,,,,,,,1,,high,,7-Nov
 logbook-p28-r12,12/9/00,PA28-161,3079M,60J>60J,Logbook.pdf,28,60J - Local - 60J,,Just flying,,12,1,,,,,,,,,1,,high,,9-Dec
-logbook-p28-r13,12/23/00,PA28-161,3079M,60J>CRE>JQF>60J,Logbook.pdf,28,60J - CRE - JQF - 60J,,To Granny's Christmas,,13,3.1,,,,,,,,,2,,medium,CRE is inserted above the line.,23-Dec
+logbook-p28-r13,12/23/00,PA28-161,3079M,60J>CRE>JQF>60J,Logbook.pdf,28,60J - CRE - JQF - 60J,,To Granny's Christmas,,13,3.1,,,,,,,,,2,,medium,,23-Dec
 logbook-p29-r01,1/29/01,PA28-161,3079M,60J>CRE>60J,Logbook.pdf,29,60J - Local - CRE - 60J,,"Pre â€¦ house, fuel and back",,1,0.8,,,,,,,,,2,,medium,,29-Jan
 logbook-p29-r02,2/6/01,PA28-161,3079M,60J>CRE,Logbook.pdf,29,60J - CRE,,Leave for new Hobbs,,2,0.4,,,,,,,,,1,,high,,6-Feb
 logbook-p29-r03,2/15/01,PA28-161,3079M,CRE>60J,Logbook.pdf,29,CRE - 60J,,Pick up from above,,3,0.4,,,,,,,,,1,,high,,15-Feb
@@ -354,12 +354,12 @@ logbook-p29-r12,11/13/01,PA28-161,3079M,60J>HBI>60J,Logbook.pdf,29,60J - HBI - 6
 logbook-p29-r13,11/28/01,PA28-161,3079M,60J>CPC,Logbook.pdf,29,60J - CPC,,To Whiteville for annual,,13,0.7,,,,,,,,,1,,high,,28-Nov
 logbook-p30-r01,1/5/02,PA28-161,3079M,CPC>60J,Logbook.pdf,30,CPC - Local - 60J,,Back from annual,,1,1.1,,,,,,,,,2,,high,,5-Jan
 logbook-p30-r02,1/8/02,PA28-161,3079M,60J>60J,Logbook.pdf,30,60J - Local - 60J,,Michael and Kina flying lessons,,2,1.3,,,,,,,,,2,,medium,,8-Jan
-logbook-p30-r03,1/12/02,PA28-161,3079M,60J>RUQ>AFP,Logbook.pdf,30,60J - RUQ - AFP (Wadesboro),,M and I to Granny's wedding,,3,2.7,,,,,,,,,2,,medium,Wadesboro is written beside AFP.,12-Jan
+logbook-p30-r03,1/12/02,PA28-161,3079M,60J>RUQ>AFP,Logbook.pdf,30,60J - RUQ - AFP (Wadesboro),,M and I to Granny's wedding,,3,2.7,,,,,,,,,2,,medium,,12-Jan
 logbook-p30-r04,1/13/02,PA28-161,3079M,AFP>60J,Logbook.pdf,30,AFP - 60J,,Back from above,,4,1.2,,,,,,,,,1,,high,,13-Jan
 logbook-p30-r05,10/28/02,PA28-161,3079M,60J>CRE>60J,Logbook.pdf,30,60J - CRE - Local - 60J,,Wings checkout,,5,1.1,,,,,,,,,2,2,medium,,28-Oct
 logbook-p30-r06,3/10/03,PA28-161,3079M,60J>60J,Logbook.pdf,30,60J - Local 60J,,Post-annual checkout,,6,1,,,,,,,,,1,,high,,10-Mar
 logbook-p30-r07,3/11/03,PA28-161,3079M,60J>CRE>60J,Logbook.pdf,30,60J - CRE - Local - 60J,,To â€¦ and back with kids,,7,1.3,,,,,,,,,2,,medium,,11-Mar
-logbook-p30-r08,9/15/03,PA28-161,3079M,60J>CPC,Logbook.pdf,30,60J - CPC[?] - Local -,,"To Whiteville, Hurricane Isabel",,8,2.4,,,,,,,,,2,,medium,Intermediate identifier overwritten. CPC is supported by Whiteville in the remarks and the following return entry.,15-Sep
+logbook-p30-r08,9/15/03,PA28-161,3079M,60J>CPC,Logbook.pdf,30,60J - CPC[?] - Local -,,"To Whiteville, Hurricane Isabel",,8,2.4,,,,,,,,,2,,medium,,15-Sep
 logbook-p30-r09,11/21/03,PA28-161,3079M,CPC>60J,Logbook.pdf,30,CPC - 60J,,Home from above,,9,1,,,,,,,,,1,,high,,21-Nov
 logbook-p30-r10,3/30/04,PA28-161,3079M,60J>CPC,Logbook.pdf,30,60J - CPC,,For annual,,10,0.7,,,,,,,,,1,,medium,,30-Mar
 logbook-p30-r11,6/17/04,PA28-161,3079M,CPC>60J,Logbook.pdf,30,CPC - 60J,,Back from annual,,11,0.8,,,,,,,,,1,,medium,,17-Jun
@@ -369,7 +369,7 @@ logbook-p31-r01,8/18/06,PA28-161,3079M,60J>EYF>60J,Logbook.pdf,31,60J - EYF 60J,
 logbook-p31-r02,10/2/06,PA28-161,3079M,CRE>60J,Logbook.pdf,31,CRE - Local - 60J,,Pick up at shop and fly local,,2,0.8,,,,,,,,,1,,medium,,2-Oct
 logbook-p31-r04,5/22/07,PA28-161,3079M,60J>CRE>60J,Logbook.pdf,31,60J - Local - CRE - 60J,,"Just practicing, TA lunch",,4,2,,,,,,,,,2,,medium,,22-May
 logbook-p31-r08,1/8/08,PA28-161,3079M,60J>CPC>CRE>SUT>60J,Logbook.pdf,31,60J - CPC - CRE - SUT - 60J,,Fuel and practice with Daniel,,8,2,,,,,,,,,4,,medium,,8-Jan
-logbook-p31-r09,1/10/08,PA28-161,3079M,60J>60J,Logbook.pdf,31,60J Local - 60J,,Boatman first flight,,9,1.2,,,,,,,,,1,,medium,,10-Jan
+logbook-p31-r09,1/10/08,PA28-161,3079M,60J>60J,Logbook.pdf,31,60J Local - 60J,,Bearman first flight,,9,1.2,,,,,,,,,1,,medium,,10-Jan
 logbook-p31-r10,2/2/08,PA28-161,3079M,60J>CPC>EQY>60J,Logbook.pdf,31,60J - CPC - EQY - 60J,,Pick up Clarke and Halo,,10,3.7,,,,,,,,,3,,medium,,2-Feb
 logbook-p31-r11,2/3/08,PA28-161,3079M,60J>EQY>60J,Logbook.pdf,31,60J - EQY - 60J,,Take them back,,11,3,,,,,,,,,2,,medium,,3-Feb
 logbook-p31-r12,2/4/08,PA28-161,3079M,60J>60J,Logbook.pdf,31,60J - Local,,Jose's first flight,,12,0.4,,,,,,,,,1,,medium,,4-Feb
