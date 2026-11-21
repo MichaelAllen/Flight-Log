@@ -181,7 +181,10 @@ export function serializeState(f: Filters, selected: string, view: string) {
 }
 export function summarize(entries: Entry[]) {
   const known = entries.filter((e) => e.totalHours !== null);
+  const recordedLandings = entries.filter((e) => e.categories.landings != null);
   return {
+    landings: recordedLandings.reduce((sum, e) => sum + e.categories.landings!, 0),
+    missingLandings: entries.length - recordedLandings.length,
     count: entries.length,
     hours: known.reduce((s, e) => s + e.totalHours!, 0),
     missing: entries.length - known.length,
@@ -275,23 +278,27 @@ export function airportStats(entries: Entry[]) {
     (a, b) => b.entries - a.entries || a.id.localeCompare(b.id),
   );
 }
-export function timeSeries(entries: Entry[], group: "month" | "year") {
-  const m = new Map<
-    string,
-    { label: string; hours: number; count: number; missing: number }
-  >();
-  for (const e of entries) {
-    const label = e.date.slice(0, group === "month" ? 7 : 4);
-    const b = m.get(label) || { label, hours: 0, count: 0, missing: 0 };
-    b.count++;
-    b.hours += e.totalHours ?? 0;
-    if (e.totalHours === null) b.missing++;
-    m.set(label, b);
+export type ChartMetric = "hours" | "landings";
+
+export function groupMetric(entries: Entry[], metric: ChartMetric, key: (entry: Entry) => string) {
+  const groups = new Map<string, { label: string; value: number; count: number; missing: number }>();
+  for (const entry of entries) {
+    const label = key(entry);
+    const bucket = groups.get(label) ?? { label, value: 0, count: 0, missing: 0 };
+    const value = metric === "hours" ? entry.totalHours : entry.categories.landings;
+    bucket.count++;
+    if (value == null) bucket.missing++;
+    else bucket.value += value;
+    groups.set(label, bucket);
   }
+  return [...groups.values()];
+}
+
+export function timeSeries(entries: Entry[], group: "month" | "year", metric: ChartMetric = "hours") {
   let cumulative = 0;
-  return [...m.values()]
+  return groupMetric(entries, metric, (entry) => entry.date.slice(0, group === "month" ? 7 : 4))
     .sort((a, b) => a.label.localeCompare(b.label))
-    .map((b) => ({ ...b, cumulative: (cumulative += b.hours) }));
+    .map((bucket) => ({ ...bucket, cumulative: (cumulative += bucket.value) }));
 }
 export const formatDate = (date: string) =>
   new Intl.DateTimeFormat("en-US", {
