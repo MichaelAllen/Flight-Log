@@ -251,6 +251,7 @@ export function airportStats(entries: Entry[]) {
     {
       id: string;
       appearances: number;
+      landings: number;
       entries: number;
       first: string;
       last: string;
@@ -258,15 +259,17 @@ export function airportStats(entries: Entry[]) {
   >();
   for (const e of entries) {
     const seen = new Set<string>();
-    for (const id of e.route) {
+    for (const [index, id] of e.route.entries()) {
       const a = m.get(id) || {
         id,
         appearances: 0,
+        landings: 0,
         entries: 0,
         first: e.date,
         last: e.date,
       };
       a.appearances++;
+      if (index > 0) a.landings++;
       if (!seen.has(id)) a.entries++;
       seen.add(id);
       a.first = e.date < a.first ? e.date : a.first;
