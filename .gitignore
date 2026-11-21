@@ -5,3 +5,4 @@ dist/
 *.tar.gz
 *.local
 .DS_Store
+public/data/logbook.json
