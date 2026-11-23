@@ -774,6 +774,16 @@ p {
 .meta-dot {
   color: #b6bead;
 }
+.flight-remarks {
+  display: block;
+  margin-top: 6px;
+  overflow: hidden;
+  color: #5e6e63;
+  font-size: 11px;
+  line-height: 1.4;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
 .review-tag {
   font-size: 9px;
   background: #f7edda;

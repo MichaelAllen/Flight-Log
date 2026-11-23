@@ -304,6 +304,11 @@ function FlightList({ entries, selectedId, onSelect, onClearFilters }: {
             </span>
             <ArrowUpRight size={16} />
           </div>
+          {e.remarks && (
+            <span className="flight-remarks" title={e.remarks}>
+              {e.remarks}
+            </span>
+          )}
           {e.notes && (
             <span className="review-tag">Transcription note</span>
           )}
