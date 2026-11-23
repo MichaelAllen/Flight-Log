@@ -626,7 +626,10 @@ export default function App() {
               <input
                 type="date"
                 value={filters.from}
-                onChange={(e) => update({ from: e.target.value })}
+                onChange={(e) => {
+                  const from = e.target.value;
+                  setFilters((f) => ({ ...f, from, to: f.to || from }));
+                }}
               />
             </label>
             <label>
