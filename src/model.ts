@@ -58,7 +58,6 @@ export interface Filters {
   airport: string;
   search: string;
   connection: string;
-  notesOnly: boolean;
 }
 export const emptyFilters: Filters = {
   year: "",
@@ -69,7 +68,6 @@ export const emptyFilters: Filters = {
   airport: "",
   search: "",
   connection: "",
-  notesOnly: false,
 };
 export function connectionKey(a: string, b: string) {
   return [a, b].sort().join("|");
@@ -119,7 +117,6 @@ export function filterEntries(
       (!f.types.length || f.types.includes(e.aircraftType)) &&
       (!f.tails.length || f.tails.includes(e.tailNumber)) &&
       (!f.airport || e.route.includes(f.airport)) &&
-      (!f.notesOnly || Boolean(e.notes?.trim())) &&
       (!f.connection || hasConnection(e, f.connection)) &&
       (!q ||
         e.route.some((id) => matchingAirports.has(id)) ||
@@ -152,7 +149,6 @@ export function parseState(search: string): {
       tails: p.getAll("tail"),
       airport: p.get("airport") || "",
       search: p.get("q") || "",
-      notesOnly: p.get("notes") === "1",
       connection: p.get("connection") || "",
     },
     selected: p.get("entry") || "",
@@ -170,7 +166,6 @@ export function serializeState(f: Filters, selected: string, view: string) {
     ["airport", f.airport],
     ["q", f.search],
     ["connection", f.connection],
-    ["notes", f.notesOnly ? "1" : ""],
     ["entry", selected],
     ["view", view === "atlas" ? "" : view],
   ])

@@ -87,7 +87,7 @@ Catalog `airportAliases` canonicalizes route stops before aggregation and distan
 
 ## Interaction and interpretation
 
-The browser fetches the generated dataset at startup. Filters, selected entry, and active view use query parameters: `year`, `from`, `to`, repeated `type` and `tail`, `airport`, `q`, `connection`, `notes`, `entry`, and `view`. Browser back/forward restores this state. Unknown parameters are ignored.
+The browser fetches the generated dataset at startup. Filters, selected entry, and active view use query parameters: `year`, `from`, `to`, repeated `type` and `tail`, `airport`, `q`, `connection`, `entry`, and `view`. Browser back/forward restores this state. Unknown parameters are ignored.
 
 Search is case-insensitive substring matching across entry IDs, dates, routes, aircraft types/tails, remarks, transcription notes, and names/cities of airports on the entry’s route. It combines with other filters and does not search scanned PDF text. The flight list renders batches of 60 entries.
 
