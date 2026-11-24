@@ -31,7 +31,7 @@ export default function PdfViewer({
   const canvas = useRef<HTMLCanvasElement>(null),
     dialog = useRef<HTMLDialogElement>(null),
     [pdf, setPdf] = useState<PDFDocumentProxy | null>(null),
-    [zoom, setZoom] = useState(1),
+    [zoom, setZoom] = useState(2),
     [error, setError] = useState(""),
     [loading, setLoading] = useState(true);
   useEffect(() => {
